@@ -7,15 +7,15 @@ import { IconButton } from "@/components/Button";
 import OpponentScoutingCard from "@/components/club/OpponentScoutingCard";
 import HeadToHeadList from "@/components/club/HeadToHeadList";
 
-// 다가오는 맞대결 상대 정보 — 상대전적(실시간) / 최근 폼·주요 선수·부상(예시 데이터)
+// 다가오는 맞대결 상대 정보 — 상대전적·최근 폼(실데이터) / 주요 선수·부상(예시 데이터)
 export default async function OpponentPage() {
-  const [upcomingMatch, scouting] = await Promise.all([
-    getUpcomingMatch(),
-    getUpcomingOpponentScouting(),
+  // "다음 상대"는 크롤된 다가오는 매치 기준으로 정한다.
+  const upcomingMatch = await getUpcomingMatch();
+  const opponentName = upcomingMatch?.opponent ?? "미정";
+  const [scouting, headToHead] = await Promise.all([
+    getUpcomingOpponentScouting(opponentName),
+    getHeadToHead(opponentName),
   ]);
-  // "다음 상대"는 실시간 연동된 다가오는 매치 기준으로 표시한다 (mock의 고정 상대명보다 우선).
-  const opponentName = upcomingMatch?.opponent ?? scouting.opponent;
-  const headToHead = await getHeadToHead(opponentName);
 
   return (
     <Layout>

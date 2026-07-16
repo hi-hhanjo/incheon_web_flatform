@@ -1,0 +1,94 @@
+"""다음 경기 일정/결과(schedule.json) 파싱.
+
+응답의 schedule는 날짜(YYYYMMDD) → 경기 리스트 형태의 dict. 각 경기를 '특정 팀 관점'으로
+해석해, 앱이 쓰는 두 가지 산출물로 변환한다:
+- parse_incheon_matches: 인천 경기 → data/matches.json 스키마(Match)
+- parse_recent_form: 임의 팀의 최근 N경기 → 상대 스카우팅의 recentForm 스키마
+"""
+
+from typing import Any
+
+from .codes import normalize_team_name
+
+
+def _flatten(schedule: dict) -> list[dict]:
+    """날짜별 dict를 경기 리스트로 펴서 kickoff 순으로 정렬한다."""
+    games = [g for date in schedule for g in schedule[date]]
+    return sorted(games, key=lambda g: (g["startDate"], g.get("startTime") or "0000"))
+
+
+def _kickoff_iso(game: dict) -> str:
+    """startDate(20260712)+startTime(1930) → '2026-07-12T19:30:00+09:00'(KST)."""
+    d, t = game["startDate"], (game.get("startTime") or "0000")
+    return f"{d[0:4]}-{d[4:6]}-{d[6:8]}T{t[0:2]}:{t[2:4]}:00+09:00"
+
+
+def _view(game: dict, team_id: int) -> dict:
+    """경기를 team_id 관점(우리 팀/상대)으로 해석한다."""
+    is_home = game["homeTeamId"] == team_id
+    opp_short = game["awayTeamName"] if is_home else game["homeTeamName"]
+    # 다음 API는 스코어를 문자열("4")로 준다 — 숫자로 캐스팅(미종료 경기는 None).
+    home_score = int(game["homeResult"]) if game["homeResult"] is not None else None
+    away_score = int(game["awayResult"]) if game["awayResult"] is not None else None
+    team_score = home_score if is_home else away_score
+    opp_score = away_score if is_home else home_score
+    return {
+        "is_home": is_home,
+        "opponent": normalize_team_name(opp_short),
+        "team_score": team_score,
+        "opp_score": opp_score,
+        "finished": game["gameStatus"] == "END",
+        "date": f"{game['startDate'][0:4]}-{game['startDate'][4:6]}-{game['startDate'][6:8]}",
+    }
+
+
+def parse_incheon_matches(schedule: dict, incheon_team_id: int) -> list[dict[str, Any]]:
+    """인천 경기 전체를 data/matches.json 스키마로 변환한다."""
+    matches = []
+    for game in _flatten(schedule):
+        v = _view(game, incheon_team_id)
+        finished = v["finished"]
+        matches.append(
+            {
+                "id": game["gameId"],
+                "round": f"K리그1 {game['roundSeq']}라운드",
+                "kickoffAt": _kickoff_iso(game),
+                "status": "finished" if finished else "upcoming",
+                "opponent": v["opponent"],
+                "isHome": v["is_home"],
+                "score": (
+                    {"incheon": v["team_score"], "opponent": v["opp_score"]}
+                    if finished
+                    else None
+                ),
+                "venue": game["fieldName"],
+            }
+        )
+    return matches
+
+
+def parse_recent_form(schedule: dict, team_id: int, count: int = 5) -> list[dict[str, Any]]:
+    """team_id 팀의 최근 count경기(완료)를 최신순으로 recentForm 스키마로 변환한다."""
+    finished = [
+        (_view(game, team_id))
+        for game in _flatten(schedule)
+        if game["gameStatus"] == "END"
+    ]
+    recent = list(reversed(finished))[:count]  # _flatten이 오름차순이므로 뒤집어 최신순
+    form = []
+    for v in recent:
+        if v["team_score"] > v["opp_score"]:
+            result = "W"
+        elif v["team_score"] < v["opp_score"]:
+            result = "L"
+        else:
+            result = "D"
+        form.append(
+            {
+                "date": v["date"],
+                "opponentFaced": v["opponent"],
+                "result": result,
+                "score": f"{v['team_score']}-{v['opp_score']}",
+            }
+        )
+    return form

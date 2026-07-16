@@ -1,13 +1,4 @@
 {
-  "matchId": 7,
-  "opponent": "울산 HD",
-  "recentForm": [
-    { "date": "2026-07-13", "opponentFaced": "전북 현대모터스", "result": "W", "score": "2-1" },
-    { "date": "2026-07-06", "opponentFaced": "포항 스틸러스", "result": "D", "score": "1-1" },
-    { "date": "2026-06-29", "opponentFaced": "대구FC", "result": "W", "score": "3-0" },
-    { "date": "2026-06-22", "opponentFaced": "광주FC", "result": "W", "score": "2-0" },
-    { "date": "2026-06-15", "opponentFaced": "수원FC", "result": "L", "score": "0-1" }
-  ],
   "keyPlayers": [
     { "name": "예시 선수 1", "position": "FW", "note": "예시 데이터입니다 (실제 기록 아님)" },
     { "name": "예시 선수 2", "position": "MF", "note": "예시 데이터입니다 (실제 기록 아님)" }

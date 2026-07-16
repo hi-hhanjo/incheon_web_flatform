@@ -1,26 +1,30 @@
 import Link from "next/link";
-import { getRecentMatches, getUpcomingMatch } from "@/lib/api/matches";
+import { getRecentMatches, getUpcomingMatch, getMatchesUpdatedAt } from "@/lib/api/matches";
 import Layout from "@/components/Layout";
 import Badge from "@/components/Badge";
 import MatchResultCard from "@/components/club/MatchResultCard";
 import RecentFormStrip from "@/components/club/RecentFormStrip";
 import UpcomingMatchCard from "@/components/club/UpcomingMatchCard";
+import { snapshotLabel } from "@/lib/format";
 
 // 구단 정보 메인 — 다가오는 매치 / 지난 경기 결과 / 최근 경기 전적 요약, 순위표·상대 정보로 이동
 export default async function ClubHome() {
-  const recentMatches = await getRecentMatches(5);
-  const upcomingMatch = await getUpcomingMatch();
+  const [recentMatches, upcomingMatch, updatedAt] = await Promise.all([
+    getRecentMatches(5),
+    getUpcomingMatch(),
+    getMatchesUpdatedAt(),
+  ]);
   const latestMatch = recentMatches[0];
 
   return (
     <Layout>
-      <h1 className="text-2xl font-bold">구단 정보</h1>
+      <div className="flex items-center gap-2">
+        <h1 className="text-2xl font-bold">구단 정보</h1>
+        <Badge text={snapshotLabel(updatedAt)} variant="neutral" />
+      </div>
 
       <section className="flex flex-col gap-3">
-        <div className="flex items-center gap-2">
-          <h2 className="text-lg font-bold">다가오는 매치</h2>
-          <Badge text="실시간 연동" variant="primary" />
-        </div>
+        <h2 className="text-lg font-bold">다가오는 매치</h2>
         {upcomingMatch ? (
           <UpcomingMatchCard match={upcomingMatch} />
         ) : (
@@ -29,10 +33,7 @@ export default async function ClubHome() {
       </section>
 
       <section className="flex flex-col gap-3">
-        <div className="flex items-center gap-2">
-          <h2 className="text-lg font-bold">지난 경기 결과</h2>
-          <Badge text="예시 데이터" variant="neutral" />
-        </div>
+        <h2 className="text-lg font-bold">지난 경기 결과</h2>
         {latestMatch ? (
           <MatchResultCard match={latestMatch} />
         ) : (
@@ -41,10 +42,7 @@ export default async function ClubHome() {
       </section>
 
       <section className="flex flex-col gap-3">
-        <div className="flex items-center gap-2">
-          <h2 className="text-lg font-bold">최근 경기 전적</h2>
-          <Badge text="예시 데이터" variant="neutral" />
-        </div>
+        <h2 className="text-lg font-bold">최근 경기 전적</h2>
         <RecentFormStrip matches={recentMatches} />
       </section>
 

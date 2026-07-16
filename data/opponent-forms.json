@@ -1,0 +1,386 @@
+{
+  "FC서울": [
+    {
+      "date": "2026-07-12",
+      "opponentFaced": "강원FC",
+      "result": "D",
+      "score": "0-0"
+    },
+    {
+      "date": "2026-07-05",
+      "opponentFaced": "인천 유나이티드",
+      "result": "W",
+      "score": "1-0"
+    },
+    {
+      "date": "2026-05-16",
+      "opponentFaced": "대전하나시티즌",
+      "result": "W",
+      "score": "2-1"
+    },
+    {
+      "date": "2026-05-12",
+      "opponentFaced": "광주FC",
+      "result": "W",
+      "score": "1-0"
+    },
+    {
+      "date": "2026-05-09",
+      "opponentFaced": "제주SK",
+      "result": "L",
+      "score": "1-2"
+    }
+  ],
+  "전북 현대모터스": [
+    {
+      "date": "2026-07-11",
+      "opponentFaced": "울산 HD",
+      "result": "W",
+      "score": "3-1"
+    },
+    {
+      "date": "2026-07-04",
+      "opponentFaced": "강원FC",
+      "result": "L",
+      "score": "1-2"
+    },
+    {
+      "date": "2026-05-17",
+      "opponentFaced": "김천 상무",
+      "result": "W",
+      "score": "1-0"
+    },
+    {
+      "date": "2026-05-13",
+      "opponentFaced": "부천FC",
+      "result": "D",
+      "score": "0-0"
+    },
+    {
+      "date": "2026-05-10",
+      "opponentFaced": "안양FC",
+      "result": "D",
+      "score": "1-1"
+    }
+  ],
+  "강원FC": [
+    {
+      "date": "2026-07-12",
+      "opponentFaced": "FC서울",
+      "result": "D",
+      "score": "0-0"
+    },
+    {
+      "date": "2026-07-04",
+      "opponentFaced": "전북 현대모터스",
+      "result": "W",
+      "score": "2-1"
+    },
+    {
+      "date": "2026-05-17",
+      "opponentFaced": "울산 HD",
+      "result": "W",
+      "score": "2-0"
+    },
+    {
+      "date": "2026-05-12",
+      "opponentFaced": "대전하나시티즌",
+      "result": "W",
+      "score": "2-0"
+    },
+    {
+      "date": "2026-05-09",
+      "opponentFaced": "광주FC",
+      "result": "D",
+      "score": "0-0"
+    }
+  ],
+  "포항 스틸러스": [
+    {
+      "date": "2026-07-11",
+      "opponentFaced": "광주FC",
+      "result": "W",
+      "score": "3-0"
+    },
+    {
+      "date": "2026-07-04",
+      "opponentFaced": "안양FC",
+      "result": "W",
+      "score": "3-2"
+    },
+    {
+      "date": "2026-05-17",
+      "opponentFaced": "부천FC",
+      "result": "L",
+      "score": "0-2"
+    },
+    {
+      "date": "2026-05-12",
+      "opponentFaced": "인천 유나이티드",
+      "result": "W",
+      "score": "1-0"
+    },
+    {
+      "date": "2026-05-09",
+      "opponentFaced": "대전하나시티즌",
+      "result": "W",
+      "score": "2-0"
+    }
+  ],
+  "울산 HD": [
+    {
+      "date": "2026-07-11",
+      "opponentFaced": "전북 현대모터스",
+      "result": "L",
+      "score": "1-3"
+    },
+    {
+      "date": "2026-07-05",
+      "opponentFaced": "광주FC",
+      "result": "D",
+      "score": "1-1"
+    },
+    {
+      "date": "2026-05-17",
+      "opponentFaced": "강원FC",
+      "result": "L",
+      "score": "0-2"
+    },
+    {
+      "date": "2026-05-13",
+      "opponentFaced": "제주SK",
+      "result": "W",
+      "score": "2-1"
+    },
+    {
+      "date": "2026-05-10",
+      "opponentFaced": "부천FC",
+      "result": "W",
+      "score": "1-0"
+    }
+  ],
+  "안양FC": [
+    {
+      "date": "2026-07-12",
+      "opponentFaced": "인천 유나이티드",
+      "result": "W",
+      "score": "1-0"
+    },
+    {
+      "date": "2026-07-04",
+      "opponentFaced": "포항 스틸러스",
+      "result": "L",
+      "score": "2-3"
+    },
+    {
+      "date": "2026-05-17",
+      "opponentFaced": "제주SK",
+      "result": "W",
+      "score": "2-1"
+    },
+    {
+      "date": "2026-05-13",
+      "opponentFaced": "김천 상무",
+      "result": "D",
+      "score": "2-2"
+    },
+    {
+      "date": "2026-05-10",
+      "opponentFaced": "전북 현대모터스",
+      "result": "D",
+      "score": "1-1"
+    }
+  ],
+  "인천 유나이티드": [
+    {
+      "date": "2026-07-12",
+      "opponentFaced": "안양FC",
+      "result": "L",
+      "score": "0-1"
+    },
+    {
+      "date": "2026-07-05",
+      "opponentFaced": "FC서울",
+      "result": "L",
+      "score": "0-1"
+    },
+    {
+      "date": "2026-05-16",
+      "opponentFaced": "광주FC",
+      "result": "W",
+      "score": "4-0"
+    },
+    {
+      "date": "2026-05-12",
+      "opponentFaced": "포항 스틸러스",
+      "result": "L",
+      "score": "0-1"
+    },
+    {
+      "date": "2026-05-09",
+      "opponentFaced": "김천 상무",
+      "result": "W",
+      "score": "3-0"
+    }
+  ],
+  "제주SK": [
+    {
+      "date": "2026-07-12",
+      "opponentFaced": "대전하나시티즌",
+      "result": "D",
+      "score": "0-0"
+    },
+    {
+      "date": "2026-07-05",
+      "opponentFaced": "김천 상무",
+      "result": "D",
+      "score": "1-1"
+    },
+    {
+      "date": "2026-05-17",
+      "opponentFaced": "안양FC",
+      "result": "L",
+      "score": "1-2"
+    },
+    {
+      "date": "2026-05-13",
+      "opponentFaced": "울산 HD",
+      "result": "L",
+      "score": "1-2"
+    },
+    {
+      "date": "2026-05-09",
+      "opponentFaced": "FC서울",
+      "result": "W",
+      "score": "2-1"
+    }
+  ],
+  "부천FC": [
+    {
+      "date": "2026-07-11",
+      "opponentFaced": "김천 상무",
+      "result": "D",
+      "score": "1-1"
+    },
+    {
+      "date": "2026-07-04",
+      "opponentFaced": "대전하나시티즌",
+      "result": "D",
+      "score": "2-2"
+    },
+    {
+      "date": "2026-05-17",
+      "opponentFaced": "포항 스틸러스",
+      "result": "W",
+      "score": "2-0"
+    },
+    {
+      "date": "2026-05-13",
+      "opponentFaced": "전북 현대모터스",
+      "result": "D",
+      "score": "0-0"
+    },
+    {
+      "date": "2026-05-10",
+      "opponentFaced": "울산 HD",
+      "result": "L",
+      "score": "0-1"
+    }
+  ],
+  "대전하나시티즌": [
+    {
+      "date": "2026-07-12",
+      "opponentFaced": "제주SK",
+      "result": "D",
+      "score": "0-0"
+    },
+    {
+      "date": "2026-07-04",
+      "opponentFaced": "부천FC",
+      "result": "D",
+      "score": "2-2"
+    },
+    {
+      "date": "2026-05-16",
+      "opponentFaced": "FC서울",
+      "result": "L",
+      "score": "1-2"
+    },
+    {
+      "date": "2026-05-12",
+      "opponentFaced": "강원FC",
+      "result": "L",
+      "score": "0-2"
+    },
+    {
+      "date": "2026-05-09",
+      "opponentFaced": "포항 스틸러스",
+      "result": "L",
+      "score": "0-2"
+    }
+  ],
+  "김천 상무": [
+    {
+      "date": "2026-07-11",
+      "opponentFaced": "부천FC",
+      "result": "D",
+      "score": "1-1"
+    },
+    {
+      "date": "2026-07-05",
+      "opponentFaced": "제주SK",
+      "result": "D",
+      "score": "1-1"
+    },
+    {
+      "date": "2026-05-17",
+      "opponentFaced": "전북 현대모터스",
+      "result": "L",
+      "score": "0-1"
+    },
+    {
+      "date": "2026-05-13",
+      "opponentFaced": "안양FC",
+      "result": "D",
+      "score": "2-2"
+    },
+    {
+      "date": "2026-05-09",
+      "opponentFaced": "인천 유나이티드",
+      "result": "L",
+      "score": "0-3"
+    }
+  ],
+  "광주FC": [
+    {
+      "date": "2026-07-11",
+      "opponentFaced": "포항 스틸러스",
+      "result": "L",
+      "score": "0-3"
+    },
+    {
+      "date": "2026-07-05",
+      "opponentFaced": "울산 HD",
+      "result": "D",
+      "score": "1-1"
+    },
+    {
+      "date": "2026-05-16",
+      "opponentFaced": "인천 유나이티드",
+      "result": "L",
+      "score": "0-4"
+    },
+    {
+      "date": "2026-05-12",
+      "opponentFaced": "FC서울",
+      "result": "L",
+      "score": "0-1"
+    },
+    {
+      "date": "2026-05-09",
+      "opponentFaced": "강원FC",
+      "result": "D",
+      "score": "0-0"
+    }
+  ]
+}

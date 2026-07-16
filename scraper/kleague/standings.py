@@ -17,7 +17,7 @@ def parse_standings(data: dict) -> list[dict[str, Any]]:
         rows.append(
             {
                 "rank": r["rank"],
-                "team": normalize_team_name(team["nameKo"]),
+                "team": normalize_team_name(team["shortNameKo"]),
                 "played": r["game"],
                 "win": r["win"],
                 "draw": r["draw"],
