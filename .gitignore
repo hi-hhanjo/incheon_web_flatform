@@ -36,7 +36,7 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
-# local sqlite db (seed with `node scripts/seed-db.mjs`)
+# local sqlite db (앱 런타임 미사용 — 과거 로컬 도구의 산출물)
 data/app.db
 
 # vercel
