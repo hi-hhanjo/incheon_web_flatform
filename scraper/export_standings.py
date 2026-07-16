@@ -3,10 +3,11 @@
 실행: python scraper/export_standings.py [연도]
   (연도 생략 시 올해)
 
-두 곳에 쓴다:
+세 곳에 쓴다:
 - data/standings.json                    : 최신 스냅샷(덮어씀). 화면이 표시하는 현재 순위.
+- data/standings-meta.json               : {"updatedAt": 수집일} — 화면의 "○○ 기준" 배지용.
 - data/standings-history/YYYY-MM-DD.json  : 수집일별 스냅샷(누적). 재빌드에도 남는 이력 저장소.
-이후 `node scripts/seed-db.mjs`가 둘 다 SQLite로 적재한다. 화면/API 코드는 손대지 않는다.
+앱(lib/api/standings.ts)은 이 JSON들을 런타임에 직접 읽는다(Vercel 서버리스 호환).
 """
 
 import json
@@ -20,6 +21,7 @@ from kleague.standings import parse_standings
 # scraper/의 부모 = 프로젝트 루트.
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 OUTPUT_PATH = PROJECT_ROOT / "data" / "standings.json"
+META_PATH = PROJECT_ROOT / "data" / "standings-meta.json"
 HISTORY_DIR = PROJECT_ROOT / "data" / "standings-history"
 
 KST = timezone(timedelta(hours=9))  # 수집일은 한국 시간 기준으로 찍는다.
@@ -50,19 +52,21 @@ def main() -> None:
 
     payload = json.dumps(rows, ensure_ascii=False, indent=2) + "\n"
 
-    # 최신 스냅샷(덮어씀)
+    snapshot_date = datetime.now(KST).strftime("%Y-%m-%d")
+
+    # 최신 스냅샷(덮어씀) + 기준일 메타
     OUTPUT_PATH.write_text(payload, encoding="utf-8")
+    META_PATH.write_text(
+        json.dumps({"updatedAt": snapshot_date}, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
 
     # 수집일별 이력(누적) — 같은 날 재실행하면 그 날짜 파일만 갱신, 과거 파일은 건드리지 않음
-    snapshot_date = datetime.now(KST).strftime("%Y-%m-%d")
     HISTORY_DIR.mkdir(parents=True, exist_ok=True)
     history_path = HISTORY_DIR / f"{snapshot_date}.json"
     history_path.write_text(payload, encoding="utf-8")
 
-    print(
-        f"순위표 {len(rows)}팀 → {OUTPUT_PATH.name} + history/{snapshot_date}.json "
-        f"(이제 `node scripts/seed-db.mjs` 실행)"
-    )
+    print(f"순위표 {len(rows)}팀 (기준일 {snapshot_date}) → standings.json + meta + history/")
 
 
 if __name__ == "__main__":

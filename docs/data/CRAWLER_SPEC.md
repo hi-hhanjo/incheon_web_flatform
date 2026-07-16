@@ -82,21 +82,29 @@ GET https://sports.daum.net/prx/hermes/api/team/rank.json
 
 순위표는 주간 갱신 스냅샷이므로, 최신만 덮어쓰지 않고 **수집일별로 누적 보존**한다.
 
-- `export_standings.py`가 매 실행 시 두 곳에 쓴다:
+- `export_standings.py`가 매 실행 시 세 곳에 쓴다:
   - `data/standings.json` — 최신(덮어씀). 화면이 표시하는 현재 순위.
+  - `data/standings-meta.json` — `{"updatedAt": 수집일}`. 화면의 "○○ 기준" 배지용.
   - `data/standings-history/YYYY-MM-DD.json` — 수집일(KST)별 스냅샷(누적).
-- **이력의 durable 원천은 git에 커밋되는 이 JSON 파일들**이다. `data/app.db`는 `.gitignore`
-  대상이라 배포/재빌드 때 `seed-db.mjs`가 파일들로부터 다시 만든다.
-- `seed-db.mjs`는 `standings_history` 테이블을 파일 기준으로 재구성한다(`DELETE` 후 전체
-  파일 재적재 — DB는 파일의 투영). 화면용 `standings`(최신)와 별개로 과거 스냅샷을 보존한다.
+- **이력의 durable 원천은 git에 커밋되는 이 JSON 파일들**이다. 앱은 이 JSON을 런타임에
+  직접 읽으므로(6절) 이력 보존에 DB가 필요 없다.
 - 아직 이 이력을 읽는 화면은 없다. "지난주 대비 순위 변동(▲▼)" 같은 기능의 기반 데이터다.
 
 ## 5. 자동화 (주간 크롤링)
 
-`.github/workflows/update-standings.yml` — 매주 화요일 09:00 KST(00:00 UTC) 크론.
-크롤링 → `standings.json` + 이력 파일 갱신 → 변경분 커밋·푸시. `workflow_dispatch`로 수동
-실행도 가능. **전제**: 레포가 GitHub에 있어야 동작한다(현재 미연결이면 `git init`·푸시 후 활성화).
-배포 플랫폼은 빌드 시 `node scripts/seed-db.mjs`로 `app.db`를 재생성해야 한다.
+`.github/workflows/update-standings.yml` — 주 2회(월·목 06:00 KST = 일·수 21:00 UTC) 크론.
+크롤링 → `standings.json` + `standings-meta.json` + 이력 파일 갱신 → 변경분 커밋·푸시.
+`workflow_dispatch`로 수동 실행도 가능. **전제**: 레포가 GitHub에 있어야 동작한다(미연결이면
+`git init`·푸시 후 활성화).
+
+## 6. 런타임 데이터 접근 (Vercel 배포)
+
+앱(`lib/api/*.ts`)은 런타임에 `data/*.json`을 **직접 import**해서 읽는다(SQLite 미사용).
+Next.js가 이 JSON을 서버리스 함수 번들에 포함하므로 Vercel에서 별도 빌드 스텝·DB·설정 없이
+동작한다. 크롤러가 갱신한 JSON이 커밋→배포되면 다음 빌드부터 최신 데이터가 반영된다.
+
+> `lib/db.ts`·`scripts/seed-db.mjs`(SQLite)는 런타임 경로에서 제외됐고, 로컬 검증용 도구로만
+> 남아 있다(앱은 이들을 import하지 않는다).
 
 ## 6. 향후 확장 (범위 밖, 참고)
 
@@ -109,5 +117,6 @@ GET https://sports.daum.net/prx/hermes/api/team/rank.json
 
 | 버전 | 날짜 | 내용 |
 |------|------|------|
+| v1.2 | 2026-07-16 | 런타임 데이터 접근을 SQLite → JSON 직접 읽기로 전환(Vercel 호환, 6절). 크론 주 2회(월·목 06:00 KST)로 조정, standings-meta.json 추가 |
 | v1.1 | 2026-07-16 | 수집일별 이력 보존(standings-history/*.json + standings_history 테이블)과 주간 자동화(GitHub Actions cron) 추가 |
 | v1.0 | 2026-07-16 | 순위표 크롤링 구현·검증 완료. 소스 검토(portal.kleague.com 탈락 → 다음 스포츠 순위 API 채택), 필드 매핑·파이프라인 확정 |

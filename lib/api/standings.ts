@@ -1,4 +1,5 @@
-import { getDb } from "@/lib/db";
+import standingsData from "@/data/standings.json";
+import standingsMeta from "@/data/standings-meta.json";
 
 export interface TeamStanding {
   rank: number;
@@ -12,40 +13,15 @@ export interface TeamStanding {
   points: number;
 }
 
-interface StandingRow {
-  team: string;
-  rank: number;
-  played: number;
-  win: number;
-  draw: number;
-  lose: number;
-  goals_for: number;
-  goals_against: number;
-  points: number;
-}
+// 런타임 저장소는 크롤러가 만든 data/standings.json(읽기 전용). rank 오름차순은 크롤러가 이미 보장.
+const standings = standingsData as TeamStanding[];
 
 export async function getStandings(): Promise<TeamStanding[]> {
-  const db = getDb();
-  const rows = db.prepare("SELECT * FROM standings ORDER BY rank ASC").all() as unknown as StandingRow[];
-  return rows.map((row) => ({
-    rank: row.rank,
-    team: row.team,
-    played: row.played,
-    win: row.win,
-    draw: row.draw,
-    lose: row.lose,
-    goalsFor: row.goals_for,
-    goalsAgainst: row.goals_against,
-    points: row.points,
-  }));
+  return standings;
 }
 
-// 순위표가 크롤링·검수 반영된 시점(스냅샷 기준일). 모든 행이 같은 값을 가지므로 한 행만 읽는다.
-// 데이터가 없으면 null(화면은 이때 "예시 데이터"로 폴백).
+// 순위표가 크롤링·수집된 날(스냅샷 기준일). data/standings-meta.json에 기록된다.
+// 값이 없으면 null(화면은 이때 "예시 데이터"로 폴백).
 export async function getStandingsUpdatedAt(): Promise<string | null> {
-  const db = getDb();
-  const row = db.prepare("SELECT updated_at FROM standings LIMIT 1").get() as
-    | { updated_at: string }
-    | undefined;
-  return row?.updated_at ?? null;
+  return (standingsMeta as { updatedAt: string | null }).updatedAt ?? null;
 }

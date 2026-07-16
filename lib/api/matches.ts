@@ -1,4 +1,4 @@
-import { getDb } from "@/lib/db";
+import matchesData from "@/data/matches.json";
 
 // 구단 정보 확장(경기 결과/일정) 데이터 구조. songs.ts와 동일하게 API Mocking 패턴을 따른다.
 export type MatchStatus = "finished" | "upcoming";
@@ -19,43 +19,17 @@ export interface Match {
   venue: string;
 }
 
-interface MatchRow {
-  id: number;
-  round: string;
-  kickoff_at: string;
-  status: MatchStatus;
-  opponent: string;
-  is_home: number;
-  score_incheon: number | null;
-  score_opponent: number | null;
-  venue: string;
-}
-
-function toMatch(row: MatchRow): Match {
-  return {
-    id: row.id,
-    round: row.round,
-    kickoffAt: row.kickoff_at,
-    status: row.status,
-    opponent: row.opponent,
-    isHome: row.is_home === 1,
-    score:
-      row.score_incheon === null || row.score_opponent === null
-        ? null
-        : { incheon: row.score_incheon, opponent: row.score_opponent },
-    venue: row.venue,
-  };
-}
+// 런타임 저장소는 data/matches.json(읽기 전용). Vercel 서버리스에서 그대로 번들·조회된다.
+const matches = matchesData as Match[];
 
 // 최근 종료된 경기를 최신순으로 count개 반환한다. count=1이면 "지난 경기 결과"로 그대로 쓸 수 있다.
 // TheSportsDB 검증 결과 최근 경기(eventslast)는 1건만 반환되어 "최근 5경기" 요구사항을
-// 충족하지 못했다 (scripts/thesportsdb-test.mjs 참고) — DB(주간 검수 스냅샷) 유지.
+// 충족하지 못했다 (scripts/thesportsdb-test.mjs 참고) — 주간 검수 스냅샷(JSON) 유지.
 export async function getRecentMatches(count = 5): Promise<Match[]> {
-  const db = getDb();
-  const rows = db
-    .prepare("SELECT * FROM matches WHERE status = 'finished' ORDER BY kickoff_at DESC LIMIT ?")
-    .all(count) as unknown as MatchRow[];
-  return rows.map(toMatch);
+  return matches
+    .filter((match) => match.status === "finished")
+    .sort((a, b) => b.kickoffAt.localeCompare(a.kickoffAt))
+    .slice(0, count);
 }
 
 // TheSportsDB의 idTeam. scripts/thesportsdb-test.mjs / app/dev/thesportsdb-test에서 검증 완료.
@@ -135,9 +109,7 @@ export async function getUpcomingMatch(): Promise<Match | undefined> {
   const liveMatch = await fetchUpcomingFromThesportsdb();
   if (liveMatch) return liveMatch;
 
-  const db = getDb();
-  const row = db
-    .prepare("SELECT * FROM matches WHERE status = 'upcoming' ORDER BY kickoff_at ASC LIMIT 1")
-    .get() as unknown as MatchRow | undefined;
-  return row ? toMatch(row) : undefined;
+  return matches
+    .filter((match) => match.status === "upcoming")
+    .sort((a, b) => a.kickoffAt.localeCompare(b.kickoffAt))[0];
 }
