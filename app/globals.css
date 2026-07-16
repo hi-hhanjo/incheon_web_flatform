@@ -1,0 +1,38 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css");
+@import "tailwindcss";
+
+/* 색상·폰트·모서리 토큰 — docs/design/BASE.md 2·3·5장 기준 (하드코딩 금지, 여기서만 정의) */
+@theme inline {
+  --color-bg-base: #0e1116;
+  --color-bg-surface: #161a21;
+  --color-bg-interactive: #1e232c;
+  --color-bg-card: #232935;
+
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #a8b0bd;
+  --color-text-muted: #6b7480;
+
+  --color-border: #2e3542;
+  --color-border-light: #414a5a;
+
+  --color-brand: #2e7dff;
+  --color-brand-deep: #0b4da2;
+  --color-brand-hover: #1f6bea;
+
+  --color-negative: #f3727f;
+  --color-warning: #ffa42b;
+
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-full: 9999px;
+
+  --font-sans: "Pretendard Variable", -apple-system, BlinkMacSystemFont,
+    "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", sans-serif;
+}
+
+body {
+  background: var(--color-bg-base);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+}

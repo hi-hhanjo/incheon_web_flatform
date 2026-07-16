@@ -1,0 +1,220 @@
+# API 명세서: 인천 유나이티드 응원가 백엔드 연동
+
+- **문서 버전**: v1.1
+- **작성일**: 2026-07-13 (v1.1 업데이트: 2026-07-13)
+- **연관 문서**: 기능명세서.md (F-01~F-04, F-11~F-14), PRD.md (v1.1, 6장 데이터 구조), TECHSTACK.md (v1.1, 2.3.1 API Mocking)
+- **목적**: 지금까지 `data/songs.json` + `lib/api/songs.ts`(API Mocking)로 흉내 내던 데이터 접근을, 실제 백엔드(Route Handler + DB, 또는 Supabase)와 연동할 때 화면 코드가 그대로 쓸 수 있는 **RESTful API 규격**을 정의합니다.
+- **적용 범위**: 지금 화면(F-01, F-02, F-04)이 실제로 쓰는 조회(Read) API + 향후 관리자 기능(F-14)에 필요한 등록/수정/삭제(CRUD) API. 신규 문서이며 기존 API 명세서는 없었습니다.
+
+---
+
+## 0. 지금 단계와 이 문서의 관계
+
+- 현재 화면은 `lib/api/songs.ts`의 `getSongs()` / `getSongById(id)`만 호출하며, 내부에서 `data/songs.json`을 즉시 읽어 반환합니다(네트워크 호출 없음).
+- 이 문서는 **`lib/api/songs.ts` 내부 구현을 아래 REST 엔드포인트 호출로 교체할 때의 계약(contract)**입니다. 화면(컴포넌트) 코드는 수정할 필요가 없습니다. (TECHSTACK.md 2.3.1 원칙 그대로 유지)
+- 생성/수정/삭제 API는 지금 화면에서는 쓰지 않지만, F-14(관리자 페이지) 도입 시 바로 쓸 수 있도록 지금 함께 정의합니다.
+
+---
+
+## 1. 공통 규칙
+
+### 1.1 Base URL
+```
+/api/songs
+```
+Next.js Route Handler(`app/api/songs/route.ts`, `app/api/songs/[id]/route.ts`) 기준. 별도 백엔드 서버로 분리하더라도 경로 구조는 동일하게 유지합니다.
+
+### 1.2 인증
+- MVP 범위(F-01~F-04, 조회)는 **인증 없이 공개** 접근합니다. (PRD Non-Goals — 로그인 기능 없음)
+- 생성/수정/삭제(POST/PATCH/DELETE)는 **관리자 전용**입니다. F-14 관리자 페이지 도입 시점에 인증 방식(예: 관리자 토큰)을 별도 정의합니다. 그 전까지는 프론트엔드에서 호출하지 않습니다.
+
+### 1.3 공통 응답 포맷 (성공/실패)
+
+**성공**
+```json
+{
+  "success": true,
+  "data": { }
+}
+```
+- `data`는 엔드포인트에 따라 객체 하나 또는 배열입니다.
+
+**실패**
+```json
+{
+  "success": false,
+  "error": {
+    "code": "SONG_NOT_FOUND",
+    "message": "해당 응원가를 찾을 수 없습니다"
+  }
+}
+```
+- `message`는 기능명세서에 정의된 문구(Feedback 컴포넌트에 그대로 표시 가능한 한국어)를 그대로 사용합니다.
+
+### 1.4 HTTP 상태 코드
+
+| 상황 | 상태 코드 |
+|------|-----------|
+| 조회/수정 성공 | 200 OK |
+| 생성 성공 | 201 Created |
+| 삭제 성공 | 204 No Content |
+| 요청 값이 잘못됨(필수 필드 누락 등) | 400 Bad Request |
+| 존재하지 않는 곡 접근 | 404 Not Found |
+| 서버 내부 오류 | 500 Internal Server Error |
+
+### 1.5 에러 코드
+
+| code | 상태 코드 | 의미 | 대응 문구 (기능명세서 기준) |
+|------|-----------|------|--------------------------------|
+| VALIDATION_ERROR | 400 | 요청 본문이 데이터 규칙을 위반 | (관리자 화면에서 필드별 안내) |
+| SONG_NOT_FOUND | 404 | 존재하지 않는 `id` | "해당 응원가를 찾을 수 없습니다" (F-02) |
+| INTERNAL_ERROR | 500 | 서버/DB 오류 | "잠시 후 다시 시도해 주세요" |
+
+---
+
+## 2. 데이터 모델
+
+PRD.md 6장 · 기능명세서 "공통 데이터 규칙"과 동일하며, 필드명은 임의로 바꾸지 않습니다.
+
+| 필드 | 타입 | 필수 | 설명 |
+|------|------|------|------|
+| id | number | O (서버 자동 생성) | 곡 고유 번호. 생성 요청 시 클라이언트가 보내지 않음 |
+| title | string | O | 응원가 제목 |
+| videos | Video[] | X (기본값 `[]`) | 공식/현장 등 영상 목록 (F-04) |
+| lyrics | string | X (기본값 `""`) | 가사, 줄바꿈(`\n`) 포함 |
+| category | string | X (기본값 `"팀 응원가"`) | 분류 (F-12 대비) |
+| tags | string[] | X (기본값 `[]`) | `"대표곡"` 포함 시 F-01 목록 상단 정렬 |
+| isFavorite | boolean | X (기본값 `false`) | 즐겨찾기 (F-13 대비) |
+
+**Video 객체**
+
+| 필드 | 타입 | 필수 | 설명 |
+|------|------|------|------|
+| type | `"official"` \| `"live"` | O | 영상 종류 |
+| label | string | O | 탭에 보일 이름 (예: "공식 영상") |
+| youtubeId | string | O | 유튜브 영상 ID |
+
+---
+
+## 3. 엔드포인트
+
+### 3.1 GET /api/songs — 목록 조회
+- **연관 기능**: F-01 (목록), F-11(검색, 확장 대비), F-12(카테고리/태그 필터, 확장 대비)
+- **쿼리 파라미터** (전부 선택, 지금은 미구현 — 확장 시 추가)
+
+| 파라미터 | 설명 |
+|----------|------|
+| q | 제목/가사 검색어 (F-11) |
+| tag | 특정 태그로 필터 (F-12) |
+| category | 특정 카테고리로 필터 (F-12) |
+
+- **응답 200**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "title": "나의 사랑 인천 FC",
+      "videos": [
+        { "type": "official", "label": "공식 영상", "youtubeId": "8n6qHWq2e-A" },
+        { "type": "live", "label": "현장 영상", "youtubeId": "uE0DAk5jeI4" }
+      ],
+      "lyrics": "오~ 오오오오! (인천!)\n...",
+      "category": "팀 응원가",
+      "tags": [],
+      "isFavorite": false
+    }
+  ]
+}
+```
+- 곡이 하나도 없으면 `data: []` (200) — 화면은 이때 "등록된 응원가가 없습니다"(F-01 빈 상태)를 표시합니다. **빈 목록은 오류가 아닙니다.**
+- **정렬은 화면(F-01) 책임입니다.** 서버는 저장 순서(등록 순서) 그대로 반환합니다. 화면은 기본적으로 이 순서를 그대로 보여주고, 사용자가 '가나다순' 토글을 누르면 프론트엔드에서 `title` 기준으로 재정렬합니다. *(v1.1 — 이전 버전의 '대표곡 우선 정렬'은 대표곡 판단 기준의 주관성 문제로 제외했습니다. FUNCTION.md v1.1 참고)*
+
+### 3.2 GET /api/songs/{id} — 상세 조회
+- **연관 기능**: F-02(상세), F-04(영상 탭은 응답의 `videos` 배열을 그대로 사용)
+- **응답 200**: 2.의 데이터 모델 전체를 포함한 단일 객체 (`data`)
+- **응답 404**
+```json
+{
+  "success": false,
+  "error": { "code": "SONG_NOT_FOUND", "message": "해당 응원가를 찾을 수 없습니다" }
+}
+```
+
+### 3.3 POST /api/songs — 생성 (F-14 관리자)
+- **요청 본문**
+```json
+{
+  "title": "새 응원가",
+  "videos": [{ "type": "official", "label": "공식 영상", "youtubeId": "xxxxxxxxxxx" }],
+  "lyrics": "가사 내용",
+  "category": "팀 응원가",
+  "tags": []
+}
+```
+- `title`만 필수, 나머지는 생략 시 2장의 기본값 적용. `id`는 보내지 않습니다(서버 자동 채번).
+- **응답 201**
+```json
+{
+  "success": true,
+  "data": { "id": 4, "title": "새 응원가", "videos": [...], "lyrics": "가사 내용", "category": "팀 응원가", "tags": [], "isFavorite": false }
+}
+```
+- **응답 400** (예: `title` 누락)
+```json
+{
+  "success": false,
+  "error": { "code": "VALIDATION_ERROR", "message": "title은 필수입니다" }
+}
+```
+
+### 3.4 PATCH /api/songs/{id} — 수정 (F-14 관리자, F-13 즐겨찾기 토글 포함)
+- 부분 수정입니다. 요청 본문에 넣은 필드만 갱신됩니다. (예: 가사만 고치기, `isFavorite`만 토글하기)
+- **요청 본문 예시 (가사만 수정)**
+```json
+{ "lyrics": "수정된 가사\n내용" }
+```
+- **응답 200**: 수정된 곡 전체 객체 (`data`)
+- **응답 404**: `SONG_NOT_FOUND` (없는 `id`)
+- **응답 400**: `VALIDATION_ERROR` (예: `videos[0].type`이 `"official"`/`"live"`가 아닌 값)
+
+### 3.5 DELETE /api/songs/{id} — 삭제 (F-14 관리자)
+- **응답 204**: 본문 없음
+- **응답 404**: `SONG_NOT_FOUND`
+
+---
+
+## 4. 기능 ↔ 엔드포인트 연결표
+
+| 기능 ID | 화면 | 사용 엔드포인트 |
+|---------|------|------------------|
+| F-01 | 목록 화면 | `GET /api/songs` |
+| F-02 | 상세 화면 | `GET /api/songs/{id}` |
+| F-04 | 영상 선택 탭 | `GET /api/songs/{id}`의 `videos` 배열 사용 (별도 API 없음) |
+| F-11 (확장) | 검색 | `GET /api/songs?q=` |
+| F-12 (확장) | 카테고리/태그 필터 | `GET /api/songs?tag=` / `?category=` |
+| F-13 (확장) | 즐겨찾기 | `PATCH /api/songs/{id}` (`{ "isFavorite": true }`) |
+| F-14 (확장) | 관리자 CRUD | `POST` / `PATCH` / `DELETE /api/songs/{id}` |
+
+---
+
+## 5. `lib/api/songs.ts` 연동 방향 (참고)
+
+지금(Mock 단계)과 실제 API 연동 단계의 내부 구현만 바뀌고, 화면이 호출하는 함수 시그니처는 그대로 유지됩니다.
+
+| 함수 | 지금 (Mock) | 연동 후 |
+|------|-------------|---------|
+| `getSongs()` | `songs.json` 배열 반환 | `GET /api/songs` 호출 → `data` 반환, 실패 시 예외 처리 |
+| `getSongById(id)` | `songs.json`에서 `find` | `GET /api/songs/{id}` 호출 → 404면 `undefined` 반환(기존 계약 유지) |
+
+이 표는 향후 실제 구현 작업 시 참고용이며, 이번 문서 작성 범위에는 `lib/api/songs.ts` 코드 수정이 포함되지 않습니다.
+
+---
+
+## 변경 이력 (Changelog)
+
+| 버전 | 날짜 | 내용 |
+|------|------|------|
+| v1.1 | 2026-07-13 | 3.1 정렬 서술을 FUNCTION.md v1.1과 맞춰 수정: '대표곡 우선 정렬' 제거, 기본은 등록 순서·프론트엔드에서 가나다순 토글로 재정렬 |
+| v1.0 | 2026-07-13 | 기능명세서·PRD·TECHSTACK 기반 최초 작성. GET(목록/상세) + CRUD(POST/PATCH/DELETE) + 성공/실패 응답 포맷 정의 |

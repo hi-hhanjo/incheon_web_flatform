@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -la 'C:\\\\Users\\\\whdl2\\\\.claude\\\\projects\\\\c--Users-whdl2-OneDrive----Cursor-coding-incheon-chant-web\\\\memory\\\\' 2>&1)",
+      "Read(//c/Users/whdl2/.claude/projects/c--Users-whdl2-OneDrive----Cursor-coding-incheon-chant-web/memory/**)",
+      "WebFetch(domain:statorium.com)"
+    ]
+  }
+}

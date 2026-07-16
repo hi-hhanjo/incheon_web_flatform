@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "round": "K리그1 15라운드",
+    "kickoffAt": "2026-06-01T18:30:00+09:00",
+    "status": "finished",
+    "opponent": "대전하나시티즌",
+    "isHome": true,
+    "score": { "incheon": 2, "opponent": 1 },
+    "venue": "인천축구전용경기장"
+  },
+  {
+    "id": 2,
+    "round": "K리그1 16라운드",
+    "kickoffAt": "2026-06-08T18:30:00+09:00",
+    "status": "finished",
+    "opponent": "광주FC",
+    "isHome": false,
+    "score": { "incheon": 1, "opponent": 1 },
+    "venue": "광주축구전용구장"
+  },
+  {
+    "id": 3,
+    "round": "K리그1 17라운드",
+    "kickoffAt": "2026-06-15T18:30:00+09:00",
+    "status": "finished",
+    "opponent": "수원FC",
+    "isHome": true,
+    "score": { "incheon": 0, "opponent": 1 },
+    "venue": "인천축구전용경기장"
+  },
+  {
+    "id": 4,
+    "round": "K리그1 18라운드",
+    "kickoffAt": "2026-06-22T18:30:00+09:00",
+    "status": "finished",
+    "opponent": "김천 상무",
+    "isHome": false,
+    "score": { "incheon": 2, "opponent": 0 },
+    "venue": "김천종합운동장"
+  },
+  {
+    "id": 5,
+    "round": "K리그1 19라운드",
+    "kickoffAt": "2026-06-29T18:30:00+09:00",
+    "status": "finished",
+    "opponent": "안양FC",
+    "isHome": true,
+    "score": { "incheon": 3, "opponent": 2 },
+    "venue": "인천축구전용경기장"
+  },
+  {
+    "id": 6,
+    "round": "K리그1 20라운드",
+    "kickoffAt": "2026-07-06T18:30:00+09:00",
+    "status": "finished",
+    "opponent": "강원FC",
+    "isHome": false,
+    "score": { "incheon": 1, "opponent": 2 },
+    "venue": "강릉종합운동장"
+  },
+  {
+    "id": 8,
+    "round": "K리그1 16라운드",
+    "kickoffAt": "2026-07-05T19:30:00+09:00",
+    "status": "finished",
+    "opponent": "FC서울",
+    "isHome": false,
+    "score": { "incheon": 0, "opponent": 1 },
+    "venue": "서울월드컵경기장"
+  },
+  {
+    "id": 9,
+    "round": "K리그1 18라운드",
+    "kickoffAt": "2026-07-18T19:30:00+09:00",
+    "status": "upcoming",
+    "opponent": "전북 현대모터스",
+    "isHome": true,
+    "score": null,
+    "venue": "인천축구전용경기장"
+  }
+]
