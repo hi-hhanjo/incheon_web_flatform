@@ -5,6 +5,8 @@ import Badge from "@/components/Badge";
 import MatchResultCard from "@/components/club/MatchResultCard";
 import RecentFormStrip from "@/components/club/RecentFormStrip";
 import UpcomingMatchCard from "@/components/club/UpcomingMatchCard";
+import SourceNote from "@/components/SourceNote";
+import { DAUM_SPORTS } from "@/lib/api/sources";
 import { snapshotLabel } from "@/lib/format";
 
 // 구단 정보 메인 — 다가오는 매치 / 지난 경기 결과 / 최근 경기 전적 요약, 순위표·상대 정보로 이동
@@ -60,6 +62,8 @@ export default async function ClubHome() {
           다음 상대 정보 보기 →
         </Link>
       </nav>
+
+      <SourceNote label="경기 데이터 출처" name={DAUM_SPORTS.name} url={DAUM_SPORTS.url} />
     </Layout>
   );
 }

@@ -4,6 +4,7 @@ import { Button, IconButton } from "@/components/Button";
 import VideoSection from "@/components/VideoSection";
 import Lyrics from "@/components/Lyrics";
 import Feedback from "@/components/Feedback";
+import SourceNote from "@/components/SourceNote";
 
 // F-02 상세 화면 (영상 탭 → 영상 → 가사 순서).
 export default async function SongDetail({
@@ -42,6 +43,15 @@ export default async function SongDetail({
         <div className="rounded-md bg-border-light px-5 py-6">
           <Feedback type="empty" message="가사 준비 중입니다" />
         </div>
+      )}
+
+      {/* 가사 출처(PRD 9장). 손으로 등록한 곡은 source가 없어 표기하지 않는다. */}
+      {song.source && (
+        <SourceNote
+          label="가사 출처"
+          name={song.source.name}
+          url={song.source.url}
+        />
       )}
     </Layout>
   );

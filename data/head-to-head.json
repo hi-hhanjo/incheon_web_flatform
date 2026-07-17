@@ -1,0 +1,1242 @@
+{
+  "안양FC": [
+    {
+      "date": "2026-07-12",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "안양FC",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "date": "2026-03-22",
+      "homeTeam": "안양FC",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 1
+    }
+  ],
+  "FC서울": [
+    {
+      "date": "2026-07-05",
+      "homeTeam": "FC서울",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "date": "2026-02-28",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "FC서울",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "date": "2024-07-27",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "FC서울",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "date": "2024-05-11",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "FC서울",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "date": "2024-03-10",
+      "homeTeam": "FC서울",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "date": "2023-07-22",
+      "homeTeam": "FC서울",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "date": "2023-06-07",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "FC서울",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "date": "2023-02-25",
+      "homeTeam": "FC서울",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "date": "2022-08-27",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "FC서울",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "date": "2022-06-25",
+      "homeTeam": "FC서울",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "date": "2022-02-26",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "FC서울",
+      "homeScore": 1,
+      "awayScore": 1
+    }
+  ],
+  "광주FC": [
+    {
+      "date": "2026-05-16",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "광주FC",
+      "homeScore": 4,
+      "awayScore": 0
+    },
+    {
+      "date": "2026-03-07",
+      "homeTeam": "광주FC",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 3,
+      "awayScore": 2
+    },
+    {
+      "date": "2024-10-27",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "광주FC",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "date": "2024-07-14",
+      "homeTeam": "광주FC",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 2
+    },
+    {
+      "date": "2024-05-25",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "광주FC",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "date": "2024-04-03",
+      "homeTeam": "광주FC",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 3
+    },
+    {
+      "date": "2023-10-28",
+      "homeTeam": "광주FC",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 2
+    },
+    {
+      "date": "2023-08-18",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "광주FC",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "date": "2023-05-20",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "광주FC",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "date": "2023-03-18",
+      "homeTeam": "광주FC",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 5,
+      "awayScore": 0
+    }
+  ],
+  "포항 스틸러스": [
+    {
+      "date": "2026-05-12",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "포항 스틸러스",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "date": "2026-03-15",
+      "homeTeam": "포항 스틸러스",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "date": "2024-09-27",
+      "homeTeam": "포항 스틸러스",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "date": "2024-06-23",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "포항 스틸러스",
+      "homeScore": 1,
+      "awayScore": 3
+    },
+    {
+      "date": "2024-04-28",
+      "homeTeam": "포항 스틸러스",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "date": "2023-10-20",
+      "homeTeam": "포항 스틸러스",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "date": "2023-09-02",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "포항 스틸러스",
+      "homeScore": 0,
+      "awayScore": 2
+    },
+    {
+      "date": "2023-06-25",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "포항 스틸러스",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "date": "2023-04-30",
+      "homeTeam": "포항 스틸러스",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 2
+    },
+    {
+      "date": "2022-10-16",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "포항 스틸러스",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "date": "2022-08-20",
+      "homeTeam": "포항 스틸러스",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "date": "2022-05-21",
+      "homeTeam": "포항 스틸러스",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "date": "2022-03-05",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "포항 스틸러스",
+      "homeScore": 0,
+      "awayScore": 1
+    }
+  ],
+  "김천 상무": [
+    {
+      "date": "2026-05-09",
+      "homeTeam": "김천 상무",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 3
+    },
+    {
+      "date": "2026-04-05",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "김천 상무",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "date": "2024-09-15",
+      "homeTeam": "김천 상무",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "date": "2024-07-05",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "김천 상무",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "date": "2024-05-05",
+      "homeTeam": "김천 상무",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "date": "2022-09-18",
+      "homeTeam": "김천 상무",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "date": "2022-07-16",
+      "homeTeam": "김천 상무",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "date": "2022-03-13",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "김천 상무",
+      "homeScore": 1,
+      "awayScore": 0
+    }
+  ],
+  "대전하나시티즌": [
+    {
+      "date": "2026-05-05",
+      "homeTeam": "대전하나시티즌",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "date": "2026-03-18",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "대전하나시티즌",
+      "homeScore": 1,
+      "awayScore": 3
+    },
+    {
+      "date": "2024-11-10",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "대전하나시티즌",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "date": "2024-08-17",
+      "homeTeam": "대전하나시티즌",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "date": "2024-05-18",
+      "homeTeam": "대전하나시티즌",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "date": "2024-03-30",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "대전하나시티즌",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "date": "2023-07-16",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "대전하나시티즌",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "date": "2023-06-04",
+      "homeTeam": "대전하나시티즌",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 1,
+      "awayScore": 3
+    },
+    {
+      "date": "2023-03-04",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "대전하나시티즌",
+      "homeScore": 3,
+      "awayScore": 3
+    }
+  ],
+  "강원FC": [
+    {
+      "date": "2026-05-02",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "강원FC",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "date": "2024-10-06",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "강원FC",
+      "homeScore": 1,
+      "awayScore": 3
+    },
+    {
+      "date": "2024-06-30",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "강원FC",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "date": "2024-04-21",
+      "homeTeam": "강원FC",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 4,
+      "awayScore": 1
+    },
+    {
+      "date": "2023-09-24",
+      "homeTeam": "강원FC",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "date": "2023-07-02",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "강원FC",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "date": "2023-04-16",
+      "homeTeam": "강원FC",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 2
+    },
+    {
+      "date": "2022-10-08",
+      "homeTeam": "강원FC",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "date": "2022-09-02",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "강원FC",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "date": "2022-06-22",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "강원FC",
+      "homeScore": 4,
+      "awayScore": 1
+    },
+    {
+      "date": "2022-03-01",
+      "homeTeam": "강원FC",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 1
+    }
+  ],
+  "제주SK": [
+    {
+      "date": "2026-04-25",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "제주SK",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "date": "2024-10-19",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "제주SK",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "date": "2024-08-10",
+      "homeTeam": "제주SK",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "date": "2024-06-26",
+      "homeTeam": "제주SK",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "date": "2024-04-06",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "제주SK",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "date": "2023-09-16",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "제주SK",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "date": "2023-05-10",
+      "homeTeam": "제주SK",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "date": "2023-03-12",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "제주SK",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "date": "2022-10-11",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "제주SK",
+      "homeScore": 3,
+      "awayScore": 1
+    },
+    {
+      "date": "2022-09-06",
+      "homeTeam": "제주SK",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "date": "2022-06-18",
+      "homeTeam": "제주SK",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "date": "2022-04-10",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "제주SK",
+      "homeScore": 2,
+      "awayScore": 2
+    }
+  ],
+  "전북 현대모터스": [
+    {
+      "date": "2026-04-21",
+      "homeTeam": "전북 현대모터스",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "date": "2024-11-02",
+      "homeTeam": "전북 현대모터스",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "date": "2024-08-24",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "전북 현대모터스",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "date": "2024-06-16",
+      "homeTeam": "전북 현대모터스",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "date": "2024-05-01",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "전북 현대모터스",
+      "homeScore": 3,
+      "awayScore": 0
+    },
+    {
+      "date": "2023-11-12",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "전북 현대모터스",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "date": "2023-08-06",
+      "homeTeam": "전북 현대모터스",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "date": "2023-05-14",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "전북 현대모터스",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "date": "2023-04-09",
+      "homeTeam": "전북 현대모터스",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "date": "2022-10-23",
+      "homeTeam": "전북 현대모터스",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "date": "2022-08-13",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "전북 현대모터스",
+      "homeScore": 3,
+      "awayScore": 1
+    },
+    {
+      "date": "2022-07-09",
+      "homeTeam": "전북 현대모터스",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "date": "2022-05-08",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "전북 현대모터스",
+      "homeScore": 0,
+      "awayScore": 1
+    }
+  ],
+  "부천FC": [
+    {
+      "date": "2026-04-18",
+      "homeTeam": "부천FC",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "date": "2025-09-07",
+      "homeTeam": "부천FC",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "date": "2025-06-08",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "부천FC",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "date": "2025-04-26",
+      "homeTeam": "부천FC",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 1,
+      "awayScore": 3
+    }
+  ],
+  "울산 HD": [
+    {
+      "date": "2026-04-11",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "울산 HD",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "date": "2024-09-22",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "울산 HD",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "date": "2024-05-29",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "울산 HD",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "date": "2024-03-17",
+      "homeTeam": "울산 HD",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 3,
+      "awayScore": 3
+    },
+    {
+      "date": "2023-11-24",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "울산 HD",
+      "homeScore": 3,
+      "awayScore": 1
+    },
+    {
+      "date": "2023-10-08",
+      "homeTeam": "울산 HD",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "date": "2023-07-12",
+      "homeTeam": "울산 HD",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "date": "2023-04-25",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "울산 HD",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "date": "2022-10-01",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "울산 HD",
+      "homeScore": 0,
+      "awayScore": 3
+    },
+    {
+      "date": "2022-09-14",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "울산 HD",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "date": "2022-05-14",
+      "homeTeam": "울산 HD",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "date": "2022-04-02",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "울산 HD",
+      "homeScore": 1,
+      "awayScore": 1
+    }
+  ],
+  "충북청주": [
+    {
+      "date": "2025-11-23",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "충북청주",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "date": "2025-08-24",
+      "homeTeam": "충북청주",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 4
+    },
+    {
+      "date": "2025-04-13",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "충북청주",
+      "homeScore": 2,
+      "awayScore": 1
+    }
+  ],
+  "전남": [
+    {
+      "date": "2025-11-08",
+      "homeTeam": "전남",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "date": "2025-07-05",
+      "homeTeam": "전남",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "date": "2025-05-25",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "전남",
+      "homeScore": 2,
+      "awayScore": 0
+    }
+  ],
+  "부산": [
+    {
+      "date": "2025-11-02",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "부산",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "date": "2025-08-09",
+      "homeTeam": "부산",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 2
+    },
+    {
+      "date": "2025-03-29",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "부산",
+      "homeScore": 1,
+      "awayScore": 1
+    }
+  ],
+  "경남": [
+    {
+      "date": "2025-10-26",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "경남",
+      "homeScore": 3,
+      "awayScore": 0
+    },
+    {
+      "date": "2025-07-20",
+      "homeTeam": "경남",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 2
+    },
+    {
+      "date": "2025-02-22",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "경남",
+      "homeScore": 2,
+      "awayScore": 0
+    }
+  ],
+  "안산": [
+    {
+      "date": "2025-10-19",
+      "homeTeam": "안산",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "date": "2025-07-27",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "안산",
+      "homeScore": 4,
+      "awayScore": 2
+    },
+    {
+      "date": "2025-05-18",
+      "homeTeam": "안산",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 2
+    }
+  ],
+  "성남": [
+    {
+      "date": "2025-10-12",
+      "homeTeam": "성남",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "date": "2025-08-16",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "성남",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "date": "2025-03-09",
+      "homeTeam": "성남",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "date": "2022-07-30",
+      "homeTeam": "성남",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 3,
+      "awayScore": 1
+    },
+    {
+      "date": "2022-05-29",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "성남",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "date": "2022-03-20",
+      "homeTeam": "성남",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 1
+    }
+  ],
+  "수원": [
+    {
+      "date": "2025-10-08",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "수원",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "date": "2025-06-15",
+      "homeTeam": "수원",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "date": "2025-03-01",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "수원",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "date": "2023-09-30",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "수원",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "date": "2023-06-11",
+      "homeTeam": "수원",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "date": "2023-05-05",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "수원",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "date": "2022-09-11",
+      "homeTeam": "수원",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 3,
+      "awayScore": 3
+    },
+    {
+      "date": "2022-07-03",
+      "homeTeam": "수원",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "date": "2022-02-19",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "수원",
+      "homeScore": 1,
+      "awayScore": 0
+    }
+  ],
+  "화성": [
+    {
+      "date": "2025-10-04",
+      "homeTeam": "화성",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "date": "2025-06-21",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "화성",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "date": "2025-04-05",
+      "homeTeam": "화성",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 1
+    }
+  ],
+  "서울E": [
+    {
+      "date": "2025-09-28",
+      "homeTeam": "서울E",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "date": "2025-08-02",
+      "homeTeam": "서울E",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "date": "2025-03-15",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "서울E",
+      "homeScore": 1,
+      "awayScore": 0
+    }
+  ],
+  "김포": [
+    {
+      "date": "2025-09-20",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "김포",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "date": "2025-06-29",
+      "homeTeam": "김포",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "date": "2025-05-04",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "김포",
+      "homeScore": 3,
+      "awayScore": 0
+    }
+  ],
+  "천안": [
+    {
+      "date": "2025-09-13",
+      "homeTeam": "천안",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 3,
+      "awayScore": 4
+    },
+    {
+      "date": "2025-06-01",
+      "homeTeam": "천안",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 3,
+      "awayScore": 3
+    },
+    {
+      "date": "2025-04-19",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "천안",
+      "homeScore": 3,
+      "awayScore": 0
+    }
+  ],
+  "충남아산": [
+    {
+      "date": "2025-08-30",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "충남아산",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "date": "2025-07-13",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "충남아산",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "date": "2025-05-10",
+      "homeTeam": "충남아산",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 3
+    }
+  ],
+  "대구": [
+    {
+      "date": "2024-11-24",
+      "homeTeam": "대구",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 1,
+      "awayScore": 3
+    },
+    {
+      "date": "2024-08-31",
+      "homeTeam": "대구",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "date": "2024-07-09",
+      "homeTeam": "대구",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "date": "2024-04-14",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "대구",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "date": "2023-12-03",
+      "homeTeam": "대구",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "date": "2023-08-13",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "대구",
+      "homeScore": 3,
+      "awayScore": 1
+    },
+    {
+      "date": "2023-05-27",
+      "homeTeam": "대구",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "date": "2023-04-01",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "대구",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "date": "2022-08-07",
+      "homeTeam": "대구",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 3
+    },
+    {
+      "date": "2022-05-17",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "대구",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "date": "2022-04-05",
+      "homeTeam": "대구",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 1,
+      "awayScore": 2
+    }
+  ],
+  "수원FC": [
+    {
+      "date": "2024-07-21",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "수원FC",
+      "homeScore": 1,
+      "awayScore": 4
+    },
+    {
+      "date": "2024-06-01",
+      "homeTeam": "수원FC",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 3,
+      "awayScore": 1
+    },
+    {
+      "date": "2024-03-02",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "수원FC",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "date": "2023-08-25",
+      "homeTeam": "수원FC",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "date": "2023-07-08",
+      "homeTeam": "수원FC",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "date": "2023-04-22",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "수원FC",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "date": "2022-08-03",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "수원FC",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "date": "2022-07-06",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "수원FC",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "date": "2022-05-05",
+      "homeTeam": "수원FC",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 2
+    }
+  ]
+}

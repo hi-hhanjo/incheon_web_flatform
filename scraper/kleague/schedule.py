@@ -1,9 +1,10 @@
 """다음 경기 일정/결과(schedule.json) 파싱.
 
 응답의 schedule는 날짜(YYYYMMDD) → 경기 리스트 형태의 dict. 각 경기를 '특정 팀 관점'으로
-해석해, 앱이 쓰는 두 가지 산출물로 변환한다:
+해석해, 앱이 쓰는 세 가지 산출물로 변환한다:
 - parse_incheon_matches: 인천 경기 → data/matches.json 스키마(Match)
 - parse_team_form: 임의 팀의 완료 경기(최신순) → 상대 폼 스키마
+- parse_head_to_head: 임의 팀의 완료 경기 → 상대전적 스키마(홈/원정 관점 유지)
 """
 
 from typing import Any
@@ -65,6 +66,32 @@ def parse_incheon_matches(schedule: dict, incheon_team_id: int) -> list[dict[str
             }
         )
     return matches
+
+
+def parse_head_to_head(schedule: dict, team_id: int) -> list[dict[str, Any]]:
+    """team_id 팀의 완료 경기를 상대전적 스키마로 변환한다(최신순).
+
+    상대 폼(parse_team_form)과 달리 '우리 팀 관점'으로 접지 않고 **홈/원정 팀명과 스코어를 그대로**
+    남긴다 — 화면(HeadToHeadList)이 "인천 2:1 전북"처럼 실제 대진을 보여주기 때문이다.
+    `opponent`는 어느 상대와의 전적인지 묶기 위한 키이며, 앱 스키마(HeadToHeadMatch)에는 없다.
+    """
+    rows = []
+    for game in _flatten(schedule):
+        if game["gameStatus"] != "END":
+            continue
+        v = _view(game, team_id)
+        rows.append(
+            {
+                "opponent": v["opponent"],
+                "date": v["date"],
+                "homeTeam": normalize_team_name(game["homeTeamName"]),
+                "awayTeam": normalize_team_name(game["awayTeamName"]),
+                "homeScore": int(game["homeResult"]),
+                "awayScore": int(game["awayResult"]),
+            }
+        )
+    rows.reverse()  # _flatten이 오름차순이므로 뒤집어 최신순
+    return rows
 
 
 def parse_team_form(

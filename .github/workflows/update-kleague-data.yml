@@ -1,8 +1,10 @@
 name: 주간 K리그 데이터 갱신
 
 # 주 2회(월·목 06:00 KST) 다음 스포츠 공개 API를 크롤링해 구단 데이터를 갱신·커밋한다.
-# - 순위표(+수집일별 이력) / 인천 경기 일정·결과 / K리그1 12팀 최근 폼
+# - 순위표(+수집일별 이력) / 인천 경기 일정·결과 / K리그1 12팀 최근 폼 / 상대전적(최근 5시즌)
 # (주말 경기뿐 아니라 주중 경기도 있어 월·목 두 번 갱신.)
+# 응원가 크롤러(export_chant_candidates 등)는 여기 없다 — 1년에 몇 곡 수준이라 수동 실행한다
+# (CRAWLER_SPEC.md 3.7.3).
 on:
   schedule:
     - cron: "0 21 * * 0" # 일 21:00 UTC = 월 06:00 KST
@@ -25,12 +27,13 @@ jobs:
       - name: 크롤러 의존성 설치
         run: pip install -r scraper/requirements.txt
 
-      - name: 크롤링 (순위표 · 경기 · 상대 폼)
+      - name: 크롤링 (순위표 · 경기 · 상대 폼 · 상대전적)
         working-directory: scraper
         run: |
           python export_standings.py
           python export_matches.py
           python export_opponent_forms.py
+          python export_head_to_head.py
 
       - name: 변경분 커밋 & 푸시
         run: |
@@ -38,7 +41,8 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/standings.json data/standings-meta.json data/standings-history/ \
                   data/matches.json data/matches-meta.json \
-                  data/opponent-forms.json data/opponent-forms-meta.json
+                  data/opponent-forms.json data/opponent-forms-meta.json \
+                  data/head-to-head.json data/head-to-head-meta.json
           if git diff --staged --quiet; then
             echo "변경 없음 — 커밋 생략"
           else

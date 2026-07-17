@@ -3,6 +3,8 @@ import Layout from "@/components/Layout";
 import Badge from "@/components/Badge";
 import { IconButton } from "@/components/Button";
 import StandingsTable from "@/components/club/StandingsTable";
+import SourceNote from "@/components/SourceNote";
+import { DAUM_SPORTS } from "@/lib/api/sources";
 import { snapshotLabel } from "@/lib/format";
 
 // K리그1 전체 순위표 — 리그 선두/다음 상대 순위 파악용
@@ -22,6 +24,8 @@ export default async function StandingsPage() {
       </div>
 
       <StandingsTable standings={standings} />
+
+      <SourceNote label="순위표 출처" name={DAUM_SPORTS.name} url={DAUM_SPORTS.url} />
     </Layout>
   );
 }
