@@ -1,18 +1,25 @@
 import type { OpponentScouting } from "@/lib/api/opponentScouting";
 import Badge from "../Badge";
+import { snapshotLabel } from "@/lib/format";
 
 const RESULT_LABEL: Record<"W" | "D" | "L", string> = { W: "승", D: "무", L: "패" };
 
-// 다가오는 상대 스카우팅 정보 — 최근 폼(실데이터) / 주요 선수 · 부상·결장(예시 데이터)
+// 다가오는 상대 스카우팅 정보 — 최근 폼(크롤 스냅샷) / 주요 선수 · 부상·결장(예시 데이터)
+// 배지는 섹션마다 데이터 출처를 그대로 반영한다: 최근 폼은 "○○ 기준", 나머지는 "예시 데이터".
 export default function OpponentScoutingCard({
   scouting,
+  formsUpdatedAt,
 }: {
   scouting: OpponentScouting;
+  formsUpdatedAt: string | null;
 }) {
   return (
     <div className="flex flex-col gap-6">
       <section className="flex flex-col gap-3">
-        <h2 className="text-lg font-bold">상대팀 최근 5경기</h2>
+        <div className="flex items-center gap-2">
+          <h2 className="text-lg font-bold">상대팀 최근 5경기</h2>
+          <Badge text={snapshotLabel(formsUpdatedAt)} variant="neutral" />
+        </div>
         {scouting.recentForm.length === 0 ? (
           <p className="text-text-muted">최근 경기 정보가 없습니다</p>
         ) : (

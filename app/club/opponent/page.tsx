@@ -1,5 +1,8 @@
 import { getUpcomingMatch } from "@/lib/api/matches";
-import { getUpcomingOpponentScouting } from "@/lib/api/opponentScouting";
+import {
+  getUpcomingOpponentScouting,
+  getOpponentFormsUpdatedAt,
+} from "@/lib/api/opponentScouting";
 import { getHeadToHead } from "@/lib/api/headToHead";
 import Layout from "@/components/Layout";
 import Badge from "@/components/Badge";
@@ -12,9 +15,10 @@ export default async function OpponentPage() {
   // "다음 상대"는 크롤된 다가오는 매치 기준으로 정한다.
   const upcomingMatch = await getUpcomingMatch();
   const opponentName = upcomingMatch?.opponent ?? "미정";
-  const [scouting, headToHead] = await Promise.all([
+  const [scouting, headToHead, formsUpdatedAt] = await Promise.all([
     getUpcomingOpponentScouting(opponentName),
     getHeadToHead(opponentName),
+    getOpponentFormsUpdatedAt(),
   ]);
 
   return (
@@ -31,7 +35,7 @@ export default async function OpponentPage() {
         <HeadToHeadList matches={headToHead} />
       </section>
 
-      <OpponentScoutingCard scouting={scouting} />
+      <OpponentScoutingCard scouting={scouting} formsUpdatedAt={formsUpdatedAt} />
     </Layout>
   );
 }

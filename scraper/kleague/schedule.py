@@ -3,7 +3,7 @@
 응답의 schedule는 날짜(YYYYMMDD) → 경기 리스트 형태의 dict. 각 경기를 '특정 팀 관점'으로
 해석해, 앱이 쓰는 두 가지 산출물로 변환한다:
 - parse_incheon_matches: 인천 경기 → data/matches.json 스키마(Match)
-- parse_recent_form: 임의 팀의 최근 N경기 → 상대 스카우팅의 recentForm 스키마
+- parse_team_form: 임의 팀의 완료 경기(최신순) → 상대 폼 스키마
 """
 
 from typing import Any
@@ -67,14 +67,21 @@ def parse_incheon_matches(schedule: dict, incheon_team_id: int) -> list[dict[str
     return matches
 
 
-def parse_recent_form(schedule: dict, team_id: int, count: int = 5) -> list[dict[str, Any]]:
-    """team_id 팀의 최근 count경기(완료)를 최신순으로 recentForm 스키마로 변환한다."""
+def parse_team_form(
+    schedule: dict, team_id: int, count: int | None = None
+) -> list[dict[str, Any]]:
+    """team_id 팀의 완료 경기를 최신순으로 form 스키마(date/opponentFaced/result/score)로 변환한다.
+
+    count=None이면 시즌 전체를 반환한다(저장은 전체, 화면에서 필요한 만큼 잘라 쓴다).
+    """
     finished = [
         (_view(game, team_id))
         for game in _flatten(schedule)
         if game["gameStatus"] == "END"
     ]
-    recent = list(reversed(finished))[:count]  # _flatten이 오름차순이므로 뒤집어 최신순
+    recent = list(reversed(finished))  # _flatten이 오름차순이므로 뒤집어 최신순
+    if count is not None:
+        recent = recent[:count]
     form = []
     for v in recent:
         if v["team_score"] > v["opp_score"]:
