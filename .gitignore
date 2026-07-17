@@ -36,8 +36,10 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
-# local sqlite db (앱 런타임 미사용 — 과거 로컬 도구의 산출물)
-data/app.db
+# 응원가 검수 큐 — 크롤러(export_chant_candidates.py)가 만들고 promote_candidates.py가 비우는
+# 작업용 파일. 승격이 끝나면 항상 []이라 커밋해도 빈 파일만 남는다. 내용은 언제든 재생성 가능
+# (앱은 이 파일을 읽지 않는다 — CRAWLER_SPEC.md 3.7).
+data/songs-candidates.json
 
 # vercel
 .vercel
