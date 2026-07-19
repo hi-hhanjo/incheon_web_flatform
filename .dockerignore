@@ -1,0 +1,27 @@
+# 컨테이너 빌드 컨텍스트에서 제외할 것 (TECHSTACK.md 2.9)
+# 이미지 안에서 npm ci / npm run build로 새로 만들므로, 로컬 산출물은 넣지 않습니다.
+
+# 의존성·빌드 산출물 (컨테이너 안에서 새로 생성)
+node_modules
+.next
+out
+build
+coverage
+
+# 앱과 무관한 것 (배포물이 아님)
+scraper
+.venv
+scratch
+docs
+
+# 버전관리·에디터·CI
+.git
+.github
+.vercel
+
+# 로그·OS 파일
+*.log
+.DS_Store
+
+# 환경 파일 (이 앱은 .env를 쓰지 않지만, 실수로라도 이미지에 굽지 않도록 제외)
+.env*
