@@ -1,13 +1,297 @@
 {
-  "keyPlayers": [
-    { "name": "예시 선수 1", "position": "FW", "note": "예시 데이터입니다 (실제 기록 아님)" },
-    { "name": "예시 선수 2", "position": "MF", "note": "예시 데이터입니다 (실제 기록 아님)" }
-  ],
-  "injuries": [
-    { "name": "예시 선수 3", "status": "예시 데이터입니다 (실제 기록 아님)", "expectedReturn": "미정" }
-  ],
-  "probableLineup": [
-    "예시 선수 1", "예시 선수 2", "예시 선수 3", "예시 선수 4", "예시 선수 5",
-    "예시 선수 6", "예시 선수 7", "예시 선수 8", "예시 선수 9", "예시 선수 10", "예시 선수 11"
-  ]
+  "울산 HD": {
+    "keyPlayers": [
+      {
+        "name": "야고",
+        "position": "FW",
+        "note": "시즌 8골 (팀 내 핵심)"
+      },
+      {
+        "name": "말컹",
+        "position": "FW",
+        "note": "시즌 5골 (팀 내 핵심)"
+      }
+    ],
+    "injuries": [
+      {
+        "name": "Erick Farias",
+        "status": "Achilles tendon surgery",
+        "expectedReturn": "미정"
+      },
+      {
+        "name": "Thomas Oude Kotte",
+        "status": "unknown injury",
+        "expectedReturn": "미정"
+      }
+    ],
+    "probableLineup": []
+  },
+  "포항 스틸러스": {
+    "keyPlayers": [
+      {
+        "name": "이호재",
+        "position": "FW",
+        "note": "시즌 8골 (팀 내 핵심)"
+      },
+      {
+        "name": "트란지스카",
+        "position": "FW",
+        "note": "시즌 2도움 (주요 자원)"
+      }
+    ],
+    "injuries": [
+      {
+        "name": "Sung-wook Jo",
+        "status": "unknown injury",
+        "expectedReturn": "미정"
+      }
+    ],
+    "probableLineup": []
+  },
+  "인천 유나이티드": {
+    "keyPlayers": [
+      {
+        "name": "무고사",
+        "position": "FW",
+        "note": "시즌 7골 (팀 내 핵심)"
+      },
+      {
+        "name": "페리어",
+        "position": "FW",
+        "note": "시즌 4골 (팀 내 핵심)"
+      }
+    ],
+    "injuries": [
+      {
+        "name": "Seung-won Yeo",
+        "status": "unknown injury",
+        "expectedReturn": "미정"
+      },
+      {
+        "name": "Ji-hwan Mun",
+        "status": "unknown injury",
+        "expectedReturn": "미정"
+      },
+      {
+        "name": "Won-jin Jung",
+        "status": "Ankle sprain",
+        "expectedReturn": "미정"
+      },
+      {
+        "name": "Tae-heui Lee",
+        "status": "unknown injury",
+        "expectedReturn": "미정"
+      },
+      {
+        "name": "Stefan Mugosa",
+        "status": "unknown injury",
+        "expectedReturn": "미정"
+      }
+    ],
+    "probableLineup": []
+  },
+  "강원FC": {
+    "keyPlayers": [
+      {
+        "name": "아부달라",
+        "position": "FW",
+        "note": "시즌 6골 (팀 내 핵심)"
+      },
+      {
+        "name": "김대원",
+        "position": "FW",
+        "note": "시즌 5골 (팀 내 핵심)"
+      }
+    ],
+    "injuries": [],
+    "probableLineup": []
+  },
+  "안양FC": {
+    "keyPlayers": [
+      {
+        "name": "아일톤",
+        "position": "FW",
+        "note": "시즌 5골 (팀 내 핵심)"
+      },
+      {
+        "name": "마테우스",
+        "position": "MF",
+        "note": "시즌 5골 (팀 내 핵심)"
+      }
+    ],
+    "injuries": [],
+    "probableLineup": []
+  },
+  "FC서울": {
+    "keyPlayers": [
+      {
+        "name": "클리말라",
+        "position": "FW",
+        "note": "시즌 5골 (팀 내 핵심)"
+      },
+      {
+        "name": "이승모",
+        "position": "MF",
+        "note": "시즌 4골 (팀 내 핵심)"
+      }
+    ],
+    "injuries": [
+      {
+        "name": "Sang-min Lee",
+        "status": "unknown injury",
+        "expectedReturn": "미정"
+      }
+    ],
+    "probableLineup": []
+  },
+  "김천 상무": {
+    "keyPlayers": [
+      {
+        "name": "고재현",
+        "position": "FW",
+        "note": "시즌 5골 (팀 내 핵심)"
+      },
+      {
+        "name": "이정택",
+        "position": "DF",
+        "note": "시즌 3도움 (주요 자원)"
+      }
+    ],
+    "injuries": [],
+    "probableLineup": []
+  },
+  "전북 현대모터스": {
+    "keyPlayers": [
+      {
+        "name": "이승우",
+        "position": "FW",
+        "note": "시즌 5골 (팀 내 핵심)"
+      },
+      {
+        "name": "티아고",
+        "position": "FW",
+        "note": "시즌 4골 (팀 내 핵심)"
+      }
+    ],
+    "injuries": [
+      {
+        "name": "Ju-yeong Park",
+        "status": "unknown injury",
+        "expectedReturn": "미정"
+      },
+      {
+        "name": "Andrea Compagno",
+        "status": "unknown injury",
+        "expectedReturn": "미정"
+      },
+      {
+        "name": "Tae-hwan Kim",
+        "status": "unknown injury",
+        "expectedReturn": "미정"
+      }
+    ],
+    "probableLineup": []
+  },
+  "대전하나시티즌": {
+    "keyPlayers": [
+      {
+        "name": "정재희",
+        "position": "FW",
+        "note": "시즌 4골 (팀 내 핵심)"
+      },
+      {
+        "name": "서진수",
+        "position": "FW",
+        "note": "시즌 3골 (팀 내 핵심)"
+      }
+    ],
+    "injuries": [
+      {
+        "name": "Chang-rae Ha",
+        "status": "Muscle injury",
+        "expectedReturn": "미정"
+      },
+      {
+        "name": "Won-sang Um",
+        "status": "Ankle injury",
+        "expectedReturn": "미정"
+      },
+      {
+        "name": "Young-jae Seo",
+        "status": "Ankle injury",
+        "expectedReturn": "미정"
+      },
+      {
+        "name": "Masatoshi Ishida",
+        "status": "Vertebral injury",
+        "expectedReturn": "미정"
+      }
+    ],
+    "probableLineup": []
+  },
+  "부천FC": {
+    "keyPlayers": [
+      {
+        "name": "갈레고",
+        "position": "FW",
+        "note": "시즌 4골 (팀 내 핵심)"
+      },
+      {
+        "name": "티아깅요",
+        "position": "DF",
+        "note": "시즌 2도움 (주요 자원)"
+      }
+    ],
+    "injuries": [
+      {
+        "name": "Seung-bin Kim",
+        "status": "unknown injury",
+        "expectedReturn": "미정"
+      },
+      {
+        "name": "Jong-woo Kim",
+        "status": "unknown injury",
+        "expectedReturn": "미정"
+      }
+    ],
+    "probableLineup": []
+  },
+  "광주FC": {
+    "keyPlayers": [
+      {
+        "name": "신창무",
+        "position": "FW",
+        "note": "시즌 3골 (팀 내 핵심)"
+      },
+      {
+        "name": "프리드욘슨",
+        "position": "FW",
+        "note": "시즌 2도움 (주요 자원)"
+      }
+    ],
+    "injuries": [
+      {
+        "name": "Kyoung-rok Choi",
+        "status": "unknown injury",
+        "expectedReturn": "미정"
+      }
+    ],
+    "probableLineup": []
+  },
+  "제주SK": {
+    "keyPlayers": [],
+    "injuries": [
+      {
+        "name": "Chang-min Lee",
+        "status": "unknown injury",
+        "expectedReturn": "미정"
+      },
+      {
+        "name": "Tobias Figueiredo",
+        "status": "unknown injury",
+        "expectedReturn": "미정"
+      }
+    ],
+    "probableLineup": []
+  }
 }

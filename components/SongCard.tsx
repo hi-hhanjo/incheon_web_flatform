@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Badge from "./Badge";
-import { UNUSED_TAG } from "@/lib/api/songs";
+import { UNUSED_TAG } from "@/lib/api/songs.schema";
 
 // docs/design/components/song-card.md — 목록 카드: 제목 + 배지를 카드 전체 색상으로 통합 표시
 export default function SongCard({

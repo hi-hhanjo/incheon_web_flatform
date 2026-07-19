@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { Video } from "@/lib/api/songs";
+import type { Video } from "@/lib/api/songs.schema";
 import VideoTabs from "./VideoTabs";
 import YoutubePlayer from "./YoutubePlayer";
 import Feedback from "./Feedback";

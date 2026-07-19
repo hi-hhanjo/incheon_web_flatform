@@ -3,6 +3,7 @@ import headToHeadMeta from "@/data/head-to-head-meta.json";
 
 export interface HeadToHeadMatch {
   date: string;
+  round: string;
   homeTeam: string;
   awayTeam: string;
   homeScore: number;

@@ -1,6 +1,7 @@
 import type { TeamStanding } from "@/lib/api/standings";
+import TeamEmblem from "./TeamEmblem";
 
-// 직전 수집일 대비 순위 변동. 색은 RecentFormStrip의 승/패 규칙과 맞춘다(상승=brand, 하락=negative).
+// 직전 수집일 대비 순위 변동. 색은 RecentMatchesList의 승/패 규칙과 맞춘다(상승=brand, 하락=negative).
 function RankChange({ value }: { value: number | null }) {
   if (value === null) return null;
   if (value === 0) return <span className="text-xs text-text-muted">–</span>;
@@ -32,7 +33,7 @@ export default function StandingsTable({ standings }: { standings: TeamStanding[
           {standings.map((team) => (
             <tr
               key={team.rank}
-              className={team.team === "인천 유나이티드" ? "bg-brand text-white" : ""}
+              className={team.team === "인천 유나이티드" ? "bg-brand/10 border-l-4 border-brand text-white font-bold" : "border-b border-border-dim last:border-0"}
             >
               <td className="px-2 py-3">
                 <span className="flex items-center gap-1">
@@ -40,7 +41,12 @@ export default function StandingsTable({ standings }: { standings: TeamStanding[
                   <RankChange value={team.rankChange} />
                 </span>
               </td>
-              <td className="px-2 py-3 font-semibold">{team.team}</td>
+              <td className="px-2 py-3">
+                <span className="flex items-center gap-2 font-semibold">
+                  <TeamEmblem teamName={team.team} size="sm" />
+                  {team.team}
+                </span>
+              </td>
               <td className="px-2 py-3 text-center whitespace-nowrap">
                 {team.win}-{team.draw}-{team.lose}
               </td>
@@ -55,3 +61,4 @@ export default function StandingsTable({ standings }: { standings: TeamStanding[
     </div>
   );
 }
+

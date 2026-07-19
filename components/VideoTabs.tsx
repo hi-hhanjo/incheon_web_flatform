@@ -1,6 +1,6 @@
 "use client";
 
-import type { Video } from "@/lib/api/songs";
+import type { Video } from "@/lib/api/songs.schema";
 
 // docs/design/components/video-tabs.md 기준 — 공식/현장 등 영상 선택 세그먼트 탭
 export default function VideoTabs({
