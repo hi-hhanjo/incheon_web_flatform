@@ -21,7 +21,7 @@
 
 | 테이블명 | 설명 | 관련 기능 |
 |----------|------|-----------|
-| songs | 응원가 1건당 1행 | F-01, F-02, F-11(확장), F-12(확장), F-13(확장) |
+| songs | 응원가 1건당 1행 | F-01, F-02, F-04, F-11 |
 | videos | 응원가에 속한 영상 1건당 1행 | F-04 |
 
 ---
@@ -35,7 +35,7 @@
 | lyrics | text | NOT NULL | `''` | `lyrics`, 줄바꿈(`\n`) 포함 |
 | category | text | NOT NULL | `'팀 응원가'` | `category`. 현재 사용 값: `'팀 응원가'` / `'선수 응원가'` — F-01 기본 정렬의 묶음 기준 |
 | tags | text[] | NOT NULL | `'{}'` | `tags`. 현재 사용 값: `'미사용'`(F-01 배지 + 맨 아래 묶음), `'대표곡'`(배지만 — 정렬에는 관여하지 않음, FUNCTION.md v1.1) |
-| is_favorite | boolean | NOT NULL | `false` | `isFavorite` (F-13 확장 대비) |
+| is_favorite | boolean | NOT NULL | `false` | `isFavorite` — 예약 필드(현재 화면 미사용), rules.md 2장에 따라 구조 유지 |
 | source_name | text | NULL 허용 | `NULL` | `source.name` — 가사 출처 이름 |
 | source_url | text | NULL 허용 | `NULL` | `source.url` — 가사 출처 원문 URL |
 
