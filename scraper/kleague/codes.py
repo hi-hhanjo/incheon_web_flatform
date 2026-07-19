@@ -25,3 +25,24 @@ NORMALIZE_TEAM_NAME = {
 def normalize_team_name(short_name: str) -> str:
     """다음 팀 약칭을 앱 표시용 팀명으로 바꾼다. 매핑에 없으면 원문 유지."""
     return NORMALIZE_TEAM_NAME.get(short_name.strip(), short_name.strip())
+
+# Transfermarkt 영어 팀명 → 앱 표기. 2026 K리그1 12팀 기준.
+NORMALIZE_TM_TEAM_NAME = {
+    "FC Seoul": "FC서울",
+    "Jeonbuk Hyundai Motors": "전북 현대모터스",
+    "Gangwon FC": "강원FC",
+    "Pohang Steelers": "포항 스틸러스",
+    "Ulsan HD FC": "울산 HD",
+    "FC Anyang": "안양FC",
+    "Incheon United": "인천 유나이티드",
+    "Jeju SK": "제주SK",
+    "Jeju United": "제주SK", # Transfermarkt might use Jeju United before SK update
+    "Bucheon FC 1995": "부천FC",
+    "Daejeon Hana Citizen": "대전하나시티즌",
+    "Gimcheon Sangmu": "김천 상무",
+    "Gwangju FC": "광주FC",
+}
+
+def normalize_tm_team_name(tm_name: str) -> str:
+    """Transfermarkt 영어 팀명을 앱 표시용 팀명으로 바꾼다. 매핑에 없으면 원문 유지."""
+    return NORMALIZE_TM_TEAM_NAME.get(tm_name.strip(), tm_name.strip())

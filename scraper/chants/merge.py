@@ -36,13 +36,23 @@ PAREN_RE = re.compile(r"\([^)]*\)")
 NON_WORD_RE = re.compile(r"[^0-9a-z가-힣]")
 # 커뮤니티 글쓴이가 붙인 상태 주석("(new)", "(new인데 못써봄)")은 곡 제목이 아니라 메모다.
 NEW_MARKER_RE = re.compile(r"\s*\(\s*new[^)]*\)\s*", re.IGNORECASE)
+# 선수 응원가의 '콜' 접미사. 소스마다 표기가 갈린다 — 아누즈는 "김도혁 콜", 인천네이션은 "김도혁"으로
+# **같은 곡**을 부른다. 앱은 'OOO 콜'로 통일하므로(classify_chants.PLAYER_CHANTS), 대조 키에서는
+# 이 접미사를 떼야 양쪽이 같은 곡으로 잡힌다. 떼지 않으면 크롤이 "전재호"를 새 곡으로 착각해
+# 중복 추가하고, reconcile은 가사 갱신을 조용히 멈춘다.
+CALL_SUFFIX_RE = re.compile(r"콜$")
 
 DEFAULT_CATEGORY = "팀 응원가"
 
 
 def normalize_title(title: str) -> str:
-    """같은 곡인지 대조하기 위한 키. 괄호 주석·공백·부호를 지우고 소문자로 만든다."""
-    return NON_WORD_RE.sub("", PAREN_RE.sub("", title).lower())
+    """같은 곡인지 대조하기 위한 키. 괄호 주석·공백·부호·'콜' 접미사를 지우고 소문자로 만든다.
+
+    예) "김도혁 콜"(앱) == "김도혁 (new)"(인천네이션) == "김도혁 콜"(아누즈) → 모두 "김도혁"
+    """
+    key = NON_WORD_RE.sub("", PAREN_RE.sub("", title).lower())
+    # 제목이 '콜' 하나뿐인 곡은 키가 비어버리므로 그대로 둔다(부르는 쪽이 빈 키를 건너뛴다).
+    return CALL_SUFFIX_RE.sub("", key) or key
 
 
 def display_title(title: str) -> str:

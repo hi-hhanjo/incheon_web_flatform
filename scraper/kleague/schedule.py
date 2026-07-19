@@ -40,6 +40,7 @@ def _view(game: dict, team_id: int) -> dict:
         "opp_score": opp_score,
         "finished": game["gameStatus"] == "END",
         "date": f"{game['startDate'][0:4]}-{game['startDate'][4:6]}-{game['startDate'][6:8]}",
+        "round": f"K리그1 {game['roundSeq']}라운드",
     }
 
 
@@ -52,7 +53,7 @@ def parse_incheon_matches(schedule: dict, incheon_team_id: int) -> list[dict[str
         matches.append(
             {
                 "id": game["gameId"],
-                "round": f"K리그1 {game['roundSeq']}라운드",
+                "round": v["round"],
                 "kickoffAt": _kickoff_iso(game),
                 "status": "finished" if finished else "upcoming",
                 "opponent": v["opponent"],
@@ -84,6 +85,7 @@ def parse_head_to_head(schedule: dict, team_id: int) -> list[dict[str, Any]]:
             {
                 "opponent": v["opponent"],
                 "date": v["date"],
+                "round": v["round"],
                 "homeTeam": normalize_team_name(game["homeTeamName"]),
                 "awayTeam": normalize_team_name(game["awayTeamName"]),
                 "homeScore": int(game["homeResult"]),
@@ -120,7 +122,9 @@ def parse_team_form(
         form.append(
             {
                 "date": v["date"],
+                "round": v["round"],
                 "opponentFaced": v["opponent"],
+                "isHome": v["is_home"],
                 "result": result,
                 "score": f"{v['team_score']}-{v['opp_score']}",
             }

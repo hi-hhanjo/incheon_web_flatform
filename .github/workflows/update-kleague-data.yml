@@ -27,13 +27,14 @@ jobs:
       - name: 크롤러 의존성 설치
         run: pip install -r scraper/requirements.txt
 
-      - name: 크롤링 (순위표 · 경기 · 상대 폼 · 상대전적)
+      - name: 크롤링 (순위표 · 경기 · 상대 폼 · 상대전적 · 스카우팅)
         working-directory: scraper
         run: |
           python export_standings.py
           python export_matches.py
           python export_opponent_forms.py
           python export_head_to_head.py
+          python export_scouting.py
 
       - name: 변경분 커밋 & 푸시
         run: |
@@ -42,7 +43,8 @@ jobs:
           git add data/standings.json data/standings-meta.json data/standings-history/ \
                   data/matches.json data/matches-meta.json \
                   data/opponent-forms.json data/opponent-forms-meta.json \
-                  data/head-to-head.json data/head-to-head-meta.json
+                  data/head-to-head.json data/head-to-head-meta.json \
+                  data/opponent-scouting.json
           if git diff --staged --quiet; then
             echo "변경 없음 — 커밋 생략"
           else
