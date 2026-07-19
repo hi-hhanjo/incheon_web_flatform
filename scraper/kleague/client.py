@@ -9,6 +9,7 @@ import requests
 
 RANK_API = "https://sports.daum.net/prx/hermes/api/team/rank.json"
 SCHEDULE_API = "https://sports.daum.net/prx/hermes/api/game/schedule.json"
+PERSON_RANK_API = "https://sports.daum.net/prx/hermes/api/person/rank.json"
 HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -50,3 +51,19 @@ def fetch_schedule(team_id: int, season_key: int, league_code: str = "kl") -> di
     )
     resp.raise_for_status()
     return resp.json()
+
+
+def fetch_person_rank(season_key: int, sort: str, league_code: str = "kl") -> list[dict]:
+    """다음 선수 스탯 순위 API 응답의 list를 반환한다. sort 'gf'=득점·'ast'=도움."""
+    resp = requests.get(
+        PERSON_RANK_API,
+        params={
+            "leagueCode": league_code,
+            "seasonKey": str(season_key),
+            "sort": sort,
+        },
+        headers=HEADERS,
+        timeout=20,
+    )
+    resp.raise_for_status()
+    return resp.json().get("list", [])

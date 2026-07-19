@@ -1,165 +1,142 @@
-import sys
-import os
+"""K리그1 팀별 스카우팅 정보(주요 선수·부상)를 크롤링해 data/opponent-scouting.json으로 내보낸다.
+
+실행: python scraper/export_scouting.py [연도]  (연도 생략 시 올해)
+
+두 소스를 합친다:
+- 주요 선수: 다음 스포츠 선수 순위 API(득점·도움)에서 팀별 상위 2명.
+- 부상: Transfermarkt K리그1 부상자 목록(선수·부상명·복귀 예정).
+
+앱(lib/api/opponentScouting.ts)이 이 JSON을 팀명 키로 읽어 '다가오는 상대' 스카우팅에 표시한다.
+라인업(probableLineup)은 아직 소스가 없어 빈 목록으로 둔다.
+"""
+
 import json
+import sys
+from datetime import datetime
+from pathlib import Path
+
 import requests
 from bs4 import BeautifulSoup
-from datetime import datetime
+
+from kleague.client import fetch_person_rank
 from kleague.codes import normalize_team_name, normalize_tm_team_name
 
-# Add parent dir to sys path if needed to run independently
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+OUTPUT_PATH = PROJECT_ROOT / "data" / "opponent-scouting.json"
 
-# Ensure we run from project root (if running from scraper dir, paths might need adjustment)
-# The script will be run from the scraper dir, so we save to ../data/
-DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
-OUTPUT_FILE = os.path.join(DATA_DIR, "opponent-scouting.json")
+KEY_PLAYERS_PER_TEAM = 2  # 팀당 대표 선수 수(득점→도움 순으로 채운다).
+TM_INJURY_URL = "https://www.transfermarkt.com/k-league-1/verletztespieler/wettbewerb/RSK1"
+TM_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"
+    )
+}
 
-def fetch_daum_person_rank(year: str, sort: str):
-    url = f"https://sports.daum.net/prx/hermes/api/person/rank.json?leagueCode=kl&seasonKey={year}&sort={sort}"
-    headers = {'User-Agent': 'Mozilla/5.0'}
+
+def scrape_injuries() -> dict[str, list[dict]]:
+    """Transfermarkt 부상자 페이지를 파싱해 {앱 팀명: [부상 항목]}을 만든다.
+    실패하면(구조 변경·네트워크 등) 빈 dict를 반환해 주요 선수만이라도 나가게 한다."""
+    injuries_by_team: dict[str, list[dict]] = {}
     try:
-        res = requests.get(url, headers=headers)
+        res = requests.get(TM_INJURY_URL, headers=TM_HEADERS, timeout=20)
         res.raise_for_status()
-        data = res.json()
-        return data.get('list', [])
-    except Exception as e:
-        print(f"Failed to fetch daum person rank ({sort}): {e}")
-        return []
+        soup = BeautifulSoup(res.text, "html.parser")
 
-def scrape_transfermarkt_injuries():
-    url = "https://www.transfermarkt.com/k-league-1/verletztespieler/wettbewerb/RSK1"
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36'
-    }
-    injuries_by_team = {}
-    try:
-        res = requests.get(url, headers=headers)
-        res.raise_for_status()
-        soup = BeautifulSoup(res.text, 'html.parser')
-        
-        tables = soup.find_all('table', class_='items')
+        tables = soup.find_all("table", class_="items")
         if not tables:
-            print("No items table found in Transfermarkt.")
+            print("Transfermarkt에서 부상자 테이블을 찾지 못했습니다.")
             return injuries_by_team
-            
-        table = tables[0]
-        rows = table.find('tbody').find_all('tr', recursive=False)
-        
+
+        rows = tables[0].find("tbody").find_all("tr", recursive=False)
         for row in rows:
-            cols = row.find_all('td', recursive=False)
+            cols = row.find_all("td", recursive=False)
             if len(cols) < 5:
                 continue
-                
-            player_cell = cols[0]
-            player_link = player_cell.find('td', class_='hauptlink')
-            if player_link and player_link.find('a'):
-                player_name = player_link.find('a').text.strip()
-            else:
+
+            # 선수명(첫 칸의 대표 링크)
+            player_link = cols[0].find("td", class_="hauptlink")
+            if not (player_link and player_link.find("a")):
                 continue
-                
-            team_cell = cols[1]
-            team_img = team_cell.find('img')
-            tm_team_name = team_img.get('title') or team_img.get('alt') if team_img else "Unknown"
+            player_name = player_link.find("a").text.strip()
+
+            # 팀명(둘째 칸 엠블럼의 title/alt) → 앱 표기로 정규화
+            team_img = cols[1].find("img")
+            tm_team_name = (team_img.get("title") or team_img.get("alt")) if team_img else "Unknown"
             normalized_team = normalize_tm_team_name(tm_team_name)
-            
+
             injury_type = cols[2].text.strip()
-            return_date = cols[4].text.strip() if len(cols) > 4 else "미정"
+            return_date = cols[4].text.strip()
+            # 복귀일 칸이 비었거나 이적료(€)가 잘못 들어오면 '미정' 처리
             if not return_date or return_date.startswith("€"):
                 return_date = "미정"
-                
-            if normalized_team not in injuries_by_team:
-                injuries_by_team[normalized_team] = []
-                
-            injuries_by_team[normalized_team].append({
-                "name": player_name,
-                "status": injury_type,
-                "expectedReturn": return_date
-            })
+
+            injuries_by_team.setdefault(normalized_team, []).append(
+                {"name": player_name, "status": injury_type, "expectedReturn": return_date}
+            )
     except Exception as e:
-        print(f"Failed to fetch transfermarkt injuries: {e}")
-        
+        print(f"Transfermarkt 부상 정보 수집 실패: {e}")
+
     return injuries_by_team
 
-def export_scouting(year: str):
-    print(f"Fetching key players for {year}...")
-    goals = fetch_daum_person_rank(year, "gf")
-    assists = fetch_daum_person_rank(year, "ast")
-    
-    # Map team -> players
-    teams_data = {}
-    
-    # Process goals
-    for p in goals:
-        team_short = p.get('statTeam', {}).get('shortNameKo')
-        if not team_short:
+
+def collect_key_players(year: str) -> dict[str, dict]:
+    """다음 선수 순위(득점·도움)에서 팀별 대표 선수 최대 2명을 뽑는다.
+    득점 상위로 먼저 채우고, 모자라면 도움 상위로 보충한다(중복 이름 제외)."""
+    teams_data: dict[str, dict] = {}
+
+    def team_bucket(short_name: str) -> dict | None:
+        if not short_name:
+            return None
+        name = normalize_team_name(short_name)
+        return teams_data.setdefault(name, {"keyPlayers": [], "injuries": [], "probableLineup": []})
+
+    # 득점 상위 → 팀별 핵심 선수
+    for p in fetch_person_rank(year, "gf"):
+        bucket = team_bucket(p.get("statTeam", {}).get("shortNameKo"))
+        if bucket is None or len(bucket["keyPlayers"]) >= KEY_PLAYERS_PER_TEAM:
             continue
-        team_name = normalize_team_name(team_short)
-        
-        if team_name not in teams_data:
-            teams_data[team_name] = {"keyPlayers": [], "injuries": []}
-            
-        if len(teams_data[team_name]["keyPlayers"]) < 2:
-            name = p.get('nameKo') or p.get('nameMain')
-            position = p.get('position', {}).get('nameMain', 'Unknown')
-            stat = p.get('stat', {})
-            gf = stat.get('gf', 0)
-            ast = stat.get('ast', 0)
-            note = f"시즌 {gf}골 (팀 내 핵심)"
-            
-            # Avoid duplicates if someone appears in both (we'll check when doing assists)
-            teams_data[team_name]["keyPlayers"].append({
-                "name": name,
-                "position": position,
-                "note": note
-            })
-            
-    # Fill remaining from assists if needed
-    for p in assists:
-        team_short = p.get('statTeam', {}).get('shortNameKo')
-        if not team_short:
+        gf = p.get("stat", {}).get("gf", 0)
+        bucket["keyPlayers"].append({
+            "name": p.get("nameKo") or p.get("nameMain"),
+            "position": p.get("position", {}).get("nameMain", "Unknown"),
+            "note": f"시즌 {gf}골 (팀 내 핵심)",
+        })
+
+    # 도움 상위 → 빈 자리 보충(이미 담긴 선수는 제외)
+    for p in fetch_person_rank(year, "ast"):
+        bucket = team_bucket(p.get("statTeam", {}).get("shortNameKo"))
+        if bucket is None or len(bucket["keyPlayers"]) >= KEY_PLAYERS_PER_TEAM:
             continue
-        team_name = normalize_team_name(team_short)
-        
-        if team_name not in teams_data:
-            teams_data[team_name] = {"keyPlayers": [], "injuries": []}
-            
-        if len(teams_data[team_name]["keyPlayers"]) < 2:
-            name = p.get('nameKo') or p.get('nameMain')
-            
-            # Check if already added from goals
-            existing = [kp["name"] for kp in teams_data[team_name]["keyPlayers"]]
-            if name not in existing:
-                position = p.get('position', {}).get('nameMain', 'Unknown')
-                stat = p.get('stat', {})
-                ast = stat.get('ast', 0)
-                note = f"시즌 {ast}도움 (주요 자원)"
-                
-                teams_data[team_name]["keyPlayers"].append({
-                    "name": name,
-                    "position": position,
-                    "note": note
-                })
+        name = p.get("nameKo") or p.get("nameMain")
+        if name in [kp["name"] for kp in bucket["keyPlayers"]]:
+            continue
+        ast = p.get("stat", {}).get("ast", 0)
+        bucket["keyPlayers"].append({
+            "name": name,
+            "position": p.get("position", {}).get("nameMain", "Unknown"),
+            "note": f"시즌 {ast}도움 (주요 자원)",
+        })
 
-    print("Fetching injuries from Transfermarkt...")
-    tm_injuries = scrape_transfermarkt_injuries()
-    
-    # Merge injuries
-    for team, injuries in tm_injuries.items():
-        if team not in teams_data:
-            teams_data[team] = {"keyPlayers": [], "injuries": []}
-        teams_data[team]["injuries"] = injuries
+    return teams_data
 
-    # Make sure all teams have at least empty lists
-    for t, data in teams_data.items():
-        if "probableLineup" not in data:
-            data["probableLineup"] = []
 
-    # Write to file
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-        json.dump(teams_data, f, ensure_ascii=False, indent=2)
-        
-    print(f"Exported scouting data for {len(teams_data)} teams to {OUTPUT_FILE}")
+def main() -> None:
+    year = sys.argv[1] if len(sys.argv) > 1 else str(datetime.now().year)
+
+    print(f"{year} 주요 선수 수집 중...")
+    teams_data = collect_key_players(year)
+
+    print("Transfermarkt 부상 정보 수집 중...")
+    for team, injuries in scrape_injuries().items():
+        bucket = teams_data.setdefault(team, {"keyPlayers": [], "injuries": [], "probableLineup": []})
+        bucket["injuries"] = injuries
+
+    OUTPUT_PATH.write_text(
+        json.dumps(teams_data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    )
+    print(f"스카우팅 {len(teams_data)}팀 → {OUTPUT_PATH.name}")
+
 
 if __name__ == "__main__":
-    year = sys.argv[1] if len(sys.argv) > 1 else str(datetime.now().year)
-    export_scouting(year)
+    main()

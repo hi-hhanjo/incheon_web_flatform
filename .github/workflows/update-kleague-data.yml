@@ -1,14 +1,15 @@
-name: 주간 K리그 데이터 갱신
+name: 일간 K리그 데이터 갱신
 
-# 주 2회(월·목 06:00 KST) 다음 스포츠 공개 API를 크롤링해 구단 데이터를 갱신·커밋한다.
+# 매일 06:00 KST 다음 스포츠 공개 API를 크롤링해 구단 데이터를 갱신·커밋한다.
 # - 순위표(+수집일별 이력) / 인천 경기 일정·결과 / K리그1 12팀 최근 폼 / 상대전적(최근 5시즌)
-# (주말 경기뿐 아니라 주중 경기도 있어 월·목 두 번 갱신.)
+# (경기 다음 날 아침에 결과가 바로 반영되도록 매일 갱신. 수집일별 이력 스냅샷이 매일 새로 쌓여
+#  순위 무변동일에도 대체로 커밋·재배포가 일어난다 — CRAWLER_SPEC.md 5절. 같은 날 재실행 등
+#  변경분이 전혀 없을 때만 아래 git diff 가드로 커밋을 생략한다.)
 # 응원가 크롤러(export_chant_candidates 등)는 여기 없다 — 1년에 몇 곡 수준이라 수동 실행한다
 # (CRAWLER_SPEC.md 3.7.3).
 on:
   schedule:
-    - cron: "0 21 * * 0" # 일 21:00 UTC = 월 06:00 KST
-    - cron: "0 21 * * 3" # 수 21:00 UTC = 목 06:00 KST
+    - cron: "0 21 * * *" # 매일 21:00 UTC = 06:00 KST
   workflow_dispatch: {} # 수동 실행도 허용
 
 permissions:
@@ -48,6 +49,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "변경 없음 — 커밋 생략"
           else
-            git commit -m "chore: K리그 데이터 주간 갱신 ($(date -u +%Y-%m-%d))"
+            git commit -m "chore: K리그 데이터 일간 갱신 ($(date -u +%Y-%m-%d))"
             git push
           fi
