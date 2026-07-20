@@ -6,6 +6,8 @@ import Lyrics from "@/components/Lyrics";
 import Feedback from "@/components/Feedback";
 import SourceNote from "@/components/SourceNote";
 
+export const revalidate = 3600; // 1시간 단위 정적 재생성 (ISR)
+
 // F-02 상세 화면 (영상 탭 → 영상 → 가사 순서).
 export default async function SongDetail({
   params,

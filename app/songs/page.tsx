@@ -3,6 +3,8 @@ import Layout from "@/components/Layout";
 import SongList from "@/components/SongList";
 import Feedback from "@/components/Feedback";
 
+export const revalidate = 3600; // 1시간 단위 정적 재생성 (ISR)
+
 // F-01 목록 화면: Layout → SongList(정렬 토글 + 카드 목록) 또는 Feedback(빈 상태)
 export default async function Home() {
   const songs = await getSongs();

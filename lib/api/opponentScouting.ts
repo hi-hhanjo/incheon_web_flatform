@@ -7,18 +7,21 @@ export interface RecentFormEntry {
   isHome: boolean;
   result: "W" | "D" | "L";
   score: string;
+  gameId: number;
 }
 
 export interface KeyPlayer {
   name: string;
   position: string;
   note: string;
+  profileUrl?: string;
 }
 
 export interface InjuryReport {
   name: string;
   status: string;
   expectedReturn: string;
+  profileUrl?: string;
 }
 
 export interface OpponentScouting {
@@ -76,18 +79,33 @@ export async function getUpcomingOpponentScouting(
       opponentFaced: f.opponent_faced,
       isHome: false, // DB 제외
       result: f.result,
-      score: f.score
+      score: f.score,
+      gameId: f.game_id
     }));
 
   const probableLineup = (data.opponent_probable_lineup || [])
     .sort((a: any, b: any) => a.sort_order - b.sort_order)
     .map((l: any) => l.player_name);
 
+  const keyPlayers = (data.opponent_key_players || []).map((kp: any) => ({
+    name: kp.name,
+    position: kp.position,
+    note: kp.note,
+    profileUrl: kp.profile_url
+  }));
+
+  const injuries = (data.opponent_injuries || []).map((inj: any) => ({
+    name: inj.name,
+    status: inj.status,
+    expectedReturn: inj.expected_return,
+    profileUrl: inj.profile_url
+  }));
+
   return {
     opponent: opponentName,
     recentForm,
-    keyPlayers: data.opponent_key_players || [],
-    injuries: data.opponent_injuries || [],
+    keyPlayers,
+    injuries,
     probableLineup
   };
 }
@@ -106,8 +124,22 @@ export async function getIncheonScouting(): Promise<Pick<OpponentScouting, "keyP
     return { keyPlayers: [], injuries: [] };
   }
 
+  const keyPlayers = (data.opponent_key_players || []).map((kp: any) => ({
+    name: kp.name,
+    position: kp.position,
+    note: kp.note,
+    profileUrl: kp.profile_url
+  }));
+
+  const injuries = (data.opponent_injuries || []).map((inj: any) => ({
+    name: inj.name,
+    status: inj.status,
+    expectedReturn: inj.expected_return,
+    profileUrl: inj.profile_url
+  }));
+
   return {
-    keyPlayers: data.opponent_key_players || [],
-    injuries: data.opponent_injuries || []
+    keyPlayers,
+    injuries
   };
 }

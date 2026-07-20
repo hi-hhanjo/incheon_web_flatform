@@ -43,7 +43,8 @@ def main() -> None:
                 "date": item["date"],
                 "opponent_faced": item["opponentFaced"],
                 "result": item["result"],
-                "score": item["score"]
+                "score": item["score"],
+                "game_id": item["gameId"]
             }).execute()
 
     print(f"상대 폼 {len(forms)}팀 → Supabase")

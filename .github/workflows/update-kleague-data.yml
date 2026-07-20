@@ -12,9 +12,6 @@ on:
     - cron: "0 21 * * *" # 매일 21:00 UTC = 06:00 KST
   workflow_dispatch: {} # 수동 실행도 허용
 
-permissions:
-  contents: write # 갱신된 데이터 파일을 되커밋하기 위해 필요
-
 jobs:
   update-data:
     runs-on: ubuntu-latest
@@ -30,35 +27,12 @@ jobs:
 
       - name: 크롤링 (순위표 · 경기 · 상대 폼 · 상대전적 · 스카우팅)
         working-directory: scraper
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
           python export_standings.py
           python export_matches.py
           python export_opponent_forms.py
           python export_head_to_head.py
           python export_scouting.py
-
-      - name: 변경분 커밋 & 푸시
-        env:
-          VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/standings.json data/standings-meta.json data/standings-history/ \
-                  data/matches.json data/matches-meta.json \
-                  data/opponent-forms.json data/opponent-forms-meta.json \
-                  data/head-to-head.json data/head-to-head-meta.json \
-                  data/opponent-scouting.json
-          if git diff --staged --quiet; then
-            echo "변경 없음 — 커밋 생략"
-          else
-            git commit -m "chore: K리그 데이터 일간 갱신 ($(date -u +%Y-%m-%d))"
-            git push
-            
-            # Vercel 재배포 트리거 (GitHub 봇의 푸시는 웹훅을 발생시키지 않으므로 수동 호출 필요)
-            if [ -n "$VERCEL_DEPLOY_HOOK" ]; then
-              curl -X POST "$VERCEL_DEPLOY_HOOK"
-              echo "Vercel Deploy Hook 호출 완료"
-            else
-              echo "VERCEL_DEPLOY_HOOK 시크릿이 설정되지 않아 배포 트리거를 생략합니다."
-            fi
-          fi

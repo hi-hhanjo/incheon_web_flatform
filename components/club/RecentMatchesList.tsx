@@ -26,9 +26,12 @@ export default function RecentMatchesList({ matches }: { matches: Match[] }) {
         const shortRound = match.round.replace("K리그1 ", "");
         
         return (
-          <div
+          <a
             key={match.id}
-            className="flex flex-1 min-w-[64px] flex-col items-center gap-1 rounded-md bg-[#0E1116] border border-border-dim p-2"
+            href={`https://sports.daum.net/match/${match.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-1 min-w-[64px] flex-col items-center gap-1 rounded-md bg-[#0E1116] border border-border-dim p-2 hover:opacity-80 transition-opacity"
           >
             <span className="text-[10px] text-text-muted whitespace-nowrap">
               {match.kickoffAt.split("T")[0]}
@@ -53,7 +56,7 @@ export default function RecentMatchesList({ matches }: { matches: Match[] }) {
             >
               {RESULT_LABEL[result]}
             </span>
-          </div>
+          </a>
         );
       })}
     </div>

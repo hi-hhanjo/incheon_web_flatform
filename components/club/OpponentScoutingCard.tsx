@@ -1,4 +1,5 @@
 import type { OpponentScouting } from "@/lib/api/opponentScouting";
+import { getOfficialSquadUrl } from "@/lib/api/teams";
 import Badge from "../Badge";
 import { snapshotLabel } from "@/lib/format";
 import TeamEmblem from "./TeamEmblem";
@@ -36,9 +37,12 @@ export default function OpponentScoutingCard({
         ) : (
           <div className="flex gap-2 overflow-x-auto">
             {scouting.recentForm.map((entry) => (
-              <div
+              <a
                 key={entry.date}
-                className="flex flex-1 min-w-[64px] flex-col items-center gap-1 rounded-md bg-[#0E1116] border border-border-dim p-2"
+                href={entry.gameId ? `https://sports.daum.net/match/${entry.gameId}` : undefined}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`flex flex-1 min-w-[64px] flex-col items-center gap-1 rounded-md bg-[#0E1116] border border-border-dim p-2 ${entry.gameId ? "hover:opacity-80 transition-opacity" : ""}`}
               >
                 <span className="text-[10px] text-text-muted whitespace-nowrap">
                   {entry.date}
@@ -63,7 +67,7 @@ export default function OpponentScoutingCard({
                 >
                   {RESULT_LABEL[entry.result]}
                 </span>
-              </div>
+              </a>
             ))}
           </div>
         )}
@@ -75,7 +79,7 @@ export default function OpponentScoutingCard({
             <div className="w-2 h-6 bg-border-light rounded-full" />
             <h2 className="text-lg font-bold">주요 선수</h2>
           </div>
-          <Badge text="다음 스포츠" variant="neutral" />
+          <Badge text="구단 공식 홈페이지" variant="neutral" />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <div className="flex flex-col gap-2">
@@ -86,7 +90,15 @@ export default function OpponentScoutingCard({
               {incheonScouting.keyPlayers.map((player) => (
                 <li key={player.name} className="rounded-md bg-brand/10 border border-brand/20 px-4 py-3">
                   <p className="font-semibold">
-                    {player.name} <span className="text-text-muted">({player.position})</span>
+                    <a
+                      href={getOfficialSquadUrl("인천 유나이티드") || "#"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:underline hover:text-brand transition-colors"
+                      title="구단 공식 홈페이지 선수단 보기"
+                    >
+                      {player.name}
+                    </a> <span className="text-text-muted">({player.position})</span>
                   </p>
                   <p className="text-sm text-text-secondary">{player.note}</p>
                 </li>
@@ -101,7 +113,15 @@ export default function OpponentScoutingCard({
               {scouting.keyPlayers.map((player) => (
                 <li key={player.name} className="rounded-md bg-[#0E1116] border border-border-dim px-4 py-3">
                   <p className="font-semibold">
-                    {player.name} <span className="text-text-muted">({player.position})</span>
+                    <a
+                      href={getOfficialSquadUrl(scouting.opponent) || "#"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:underline hover:text-brand transition-colors"
+                      title="구단 공식 홈페이지 선수단 보기"
+                    >
+                      {player.name}
+                    </a> <span className="text-text-muted">({player.position})</span>
                   </p>
                   <p className="text-sm text-text-secondary">{player.note}</p>
                 </li>
@@ -130,7 +150,17 @@ export default function OpponentScoutingCard({
               <ul className="flex flex-col gap-2">
                 {incheonScouting.injuries.map((injury) => (
                   <li key={injury.name} className="rounded-md bg-brand/10 border border-brand/20 px-4 py-3">
-                    <p className="font-semibold">{injury.name}</p>
+                    <p className="font-semibold">
+                      <a
+                        href={getOfficialSquadUrl("인천 유나이티드") || "#"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline hover:text-brand transition-colors"
+                        title="구단 공식 홈페이지 선수단 보기"
+                      >
+                        {injury.name}
+                      </a>
+                    </p>
                     <p className="text-sm text-text-secondary">
                       {injury.status} · 복귀 예상: {injury.expectedReturn}
                     </p>
@@ -149,7 +179,17 @@ export default function OpponentScoutingCard({
               <ul className="flex flex-col gap-2">
                 {scouting.injuries.map((injury) => (
                   <li key={injury.name} className="rounded-md bg-[#0E1116] border border-border-dim px-4 py-3">
-                    <p className="font-semibold">{injury.name}</p>
+                    <p className="font-semibold">
+                      <a
+                        href={getOfficialSquadUrl(scouting.opponent) || "#"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:underline hover:text-brand transition-colors"
+                        title="구단 공식 홈페이지 선수단 보기"
+                      >
+                        {injury.name}
+                      </a>
+                    </p>
                     <p className="text-sm text-text-secondary">
                       {injury.status} · 복귀 예상: {injury.expectedReturn}
                     </p>

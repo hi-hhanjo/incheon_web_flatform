@@ -4,7 +4,7 @@ import {
   getOpponentFormsUpdatedAt,
   getIncheonScouting,
 } from "@/lib/api/opponentScouting";
-import { getHeadToHead, getHeadToHeadUpdatedAt } from "@/lib/api/headToHead";
+import { getHeadToHeadSummary, getHeadToHeadUpdatedAt } from "@/lib/api/headToHead";
 import { getStandings, getStandingsUpdatedAt } from "@/lib/api/standings";
 import Layout from "@/components/Layout";
 import Badge from "@/components/Badge";
@@ -19,6 +19,8 @@ import SourceNote from "@/components/SourceNote";
 import { DAUM_SPORTS } from "@/lib/api/sources";
 import { snapshotLabel } from "@/lib/format";
 
+export const revalidate = 3600; // 1시간 단위 정적 재생성 (ISR)
+
 // 구단 정보 메인 — 다가오는 매치 / 상대 전적 및 정보 / 최근 경기 결과 및 전적 / 전체 순위표
 export default async function ClubHome() {
   const [recentMatches, upcomingMatch, updatedAt] = await Promise.all([
@@ -30,10 +32,10 @@ export default async function ClubHome() {
   const remainingMatches = recentMatches.slice(1, 5);
 
   const opponentName = upcomingMatch?.opponent ?? "미정";
-  const [scouting, incheonScouting, headToHead, headToHeadUpdatedAt, formsUpdatedAt, standings, standingsUpdatedAt] = await Promise.all([
+  const [scouting, incheonScouting, { matches: headToHead, summary: h2hSummary }, headToHeadUpdatedAt, formsUpdatedAt, standings, standingsUpdatedAt] = await Promise.all([
     getUpcomingOpponentScouting(opponentName),
     getIncheonScouting(),
-    getHeadToHead(opponentName),
+    getHeadToHeadSummary(opponentName),
     getHeadToHeadUpdatedAt(),
     getOpponentFormsUpdatedAt(),
     getStandings(),
@@ -66,7 +68,7 @@ export default async function ClubHome() {
           <h2 className="text-lg font-bold">다가오는 매치</h2>
         </div>
         {upcomingMatch ? (
-          <UpcomingMatchCard match={upcomingMatch} />
+          <UpcomingMatchCard match={upcomingMatch} h2hSummary={h2hSummary} />
         ) : (
           <p className="text-text-muted">예정된 경기가 없습니다</p>
         )}
@@ -74,15 +76,8 @@ export default async function ClubHome() {
 
       {upcomingMatch && (
         <>
-          <section id="head-to-head" className="flex flex-col gap-4 bg-bg-surface p-5 rounded-xl shadow-sm">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-2 h-6 bg-border-light rounded-full" />
-                <h2 className="text-lg font-bold">상대전적</h2>
-              </div>
-              <Badge text={snapshotLabel(headToHeadUpdatedAt)} variant="neutral" />
-            </div>
-            <HeadToHeadList matches={headToHead} />
+          <section id="head-to-head" className="scroll-mt-20">
+            <HeadToHeadList matches={headToHead} updatedAt={headToHeadUpdatedAt} />
           </section>
 
           <OpponentScoutingCard 

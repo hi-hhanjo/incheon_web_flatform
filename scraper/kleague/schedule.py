@@ -41,6 +41,8 @@ def _view(game: dict, team_id: int) -> dict:
         "finished": game["gameStatus"] == "END",
         "date": f"{game['startDate'][0:4]}-{game['startDate'][4:6]}-{game['startDate'][6:8]}",
         "round": f"K리그1 {game['roundSeq']}라운드",
+        "gameId": game["gameId"],
+        "venue": game.get("fieldName", ""),
     }
 
 
@@ -63,7 +65,7 @@ def parse_incheon_matches(schedule: dict, incheon_team_id: int) -> list[dict[str
                     if finished
                     else None
                 ),
-                "venue": game["fieldName"],
+                "venue": v["venue"],
             }
         )
     return matches
@@ -90,6 +92,8 @@ def parse_head_to_head(schedule: dict, team_id: int) -> list[dict[str, Any]]:
                 "awayTeam": normalize_team_name(game["awayTeamName"]),
                 "homeScore": int(game["homeResult"]),
                 "awayScore": int(game["awayResult"]),
+                "gameId": game["gameId"],
+                "venue": v["venue"],
             }
         )
     rows.reverse()  # _flatten이 오름차순이므로 뒤집어 최신순
@@ -127,6 +131,7 @@ def parse_team_form(
                 "isHome": v["is_home"],
                 "result": result,
                 "score": f"{v['team_score']}-{v['opp_score']}",
+                "gameId": v["gameId"],
             }
         )
     return form

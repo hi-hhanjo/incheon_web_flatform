@@ -28,7 +28,7 @@ from supabase_client import supabase
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 KST = timezone(timedelta(hours=9))
-DEFAULT_SEASONS = 5  # 상대전적은 화면에 최근 5경기만 쓰므로 5시즌이면 충분하다.
+DEFAULT_SEASONS = 25  # 역대 전적을 위해 25시즌 (K리그 원년부터 최대한 확보)
 LEAGUE_CODES = ("kl", "kl2")
 INCHEON_SHORT_NAME = "인천"
 
@@ -83,6 +83,8 @@ def main() -> None:
                 "away_team": m["awayTeam"],
                 "home_score": m["homeScore"],
                 "away_score": m["awayScore"],
+                "game_id": m["gameId"],
+                "venue": m["venue"],
                 "updated_at": snapshot_date
             }
             supabase.table("head_to_head").insert(data).execute()

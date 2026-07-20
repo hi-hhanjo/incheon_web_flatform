@@ -38,7 +38,13 @@ export default function MatchResultCard({ match }: { match: Match }) {
           {match.isHome ? "HOME" : "AWAY"}
         </span>
       </div>
-      <div className="mt-4 flex items-center justify-between">
+      <a
+        href={`https://sports.daum.net/match/${match.id}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-4 flex items-center justify-between transition-opacity hover:opacity-80"
+        title="다음 스포츠에서 경기 결과 보기"
+      >
         <div className="flex flex-1 items-center justify-end gap-5">
           <div className="flex items-center gap-2">
             {match.isHome && result && (
@@ -49,14 +55,14 @@ export default function MatchResultCard({ match }: { match: Match }) {
             <span className="text-2xl font-bold">{match.score ? (match.isHome ? match.score.incheon : match.score.opponent) : "-"}</span>
           </div>
           <div className="flex flex-col items-center gap-1">
-            <TeamEmblem teamName={home} size="lg" />
+            <TeamEmblem teamName={home} size="lg" linked={false} />
             <span className="text-sm font-semibold">{home}</span>
           </div>
         </div>
         <span className="px-4 text-lg font-bold text-text-muted">vs</span>
         <div className="flex flex-1 items-center justify-start gap-5">
           <div className="flex flex-col items-center gap-1">
-            <TeamEmblem teamName={away} size="lg" />
+            <TeamEmblem teamName={away} size="lg" linked={false} />
             <span className="text-sm font-semibold">{away}</span>
           </div>
           <div className="flex items-center gap-2">
@@ -68,7 +74,7 @@ export default function MatchResultCard({ match }: { match: Match }) {
             )}
           </div>
         </div>
-      </div>
+      </a>
       <p className="mt-4 text-center text-xs text-text-muted">
         {formatKickoff(match.kickoffAt)}
       </p>
