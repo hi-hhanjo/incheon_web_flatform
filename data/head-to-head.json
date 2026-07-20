@@ -1,4 +1,118 @@
 {
+  "전북 현대모터스": [
+    {
+      "date": "2026-07-18",
+      "round": "K리그1 18라운드",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "전북 현대모터스",
+      "homeScore": 1,
+      "awayScore": 0
+    },
+    {
+      "date": "2026-04-21",
+      "round": "K리그1 9라운드",
+      "homeTeam": "전북 현대모터스",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 1,
+      "awayScore": 2
+    },
+    {
+      "date": "2024-11-02",
+      "round": "K리그1 36라운드",
+      "homeTeam": "전북 현대모터스",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "date": "2024-08-24",
+      "round": "K리그1 28라운드",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "전북 현대모터스",
+      "homeScore": 0,
+      "awayScore": 1
+    },
+    {
+      "date": "2024-06-16",
+      "round": "K리그1 17라운드",
+      "homeTeam": "전북 현대모터스",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "date": "2024-05-01",
+      "round": "K리그1 10라운드",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "전북 현대모터스",
+      "homeScore": 3,
+      "awayScore": 0
+    },
+    {
+      "date": "2023-11-12",
+      "round": "K리그1 36라운드",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "전북 현대모터스",
+      "homeScore": 1,
+      "awayScore": 1
+    },
+    {
+      "date": "2023-08-06",
+      "round": "K리그1 25라운드",
+      "homeTeam": "전북 현대모터스",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "date": "2023-05-14",
+      "round": "K리그1 13라운드",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "전북 현대모터스",
+      "homeScore": 0,
+      "awayScore": 0
+    },
+    {
+      "date": "2023-04-09",
+      "round": "K리그1 6라운드",
+      "homeTeam": "전북 현대모터스",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 0
+    },
+    {
+      "date": "2022-10-23",
+      "round": "K리그1 38라운드",
+      "homeTeam": "전북 현대모터스",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 1
+    },
+    {
+      "date": "2022-08-13",
+      "round": "K리그1 28라운드",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "전북 현대모터스",
+      "homeScore": 3,
+      "awayScore": 1
+    },
+    {
+      "date": "2022-07-09",
+      "round": "K리그1 21라운드",
+      "homeTeam": "전북 현대모터스",
+      "awayTeam": "인천 유나이티드",
+      "homeScore": 2,
+      "awayScore": 2
+    },
+    {
+      "date": "2022-05-08",
+      "round": "K리그1 11라운드",
+      "homeTeam": "인천 유나이티드",
+      "awayTeam": "전북 현대모터스",
+      "homeScore": 0,
+      "awayScore": 1
+    }
+  ],
   "안양FC": [
     {
       "date": "2026-07-12",
@@ -621,112 +735,6 @@
       "awayTeam": "제주SK",
       "homeScore": 2,
       "awayScore": 2
-    }
-  ],
-  "전북 현대모터스": [
-    {
-      "date": "2026-04-21",
-      "round": "K리그1 9라운드",
-      "homeTeam": "전북 현대모터스",
-      "awayTeam": "인천 유나이티드",
-      "homeScore": 1,
-      "awayScore": 2
-    },
-    {
-      "date": "2024-11-02",
-      "round": "K리그1 36라운드",
-      "homeTeam": "전북 현대모터스",
-      "awayTeam": "인천 유나이티드",
-      "homeScore": 0,
-      "awayScore": 0
-    },
-    {
-      "date": "2024-08-24",
-      "round": "K리그1 28라운드",
-      "homeTeam": "인천 유나이티드",
-      "awayTeam": "전북 현대모터스",
-      "homeScore": 0,
-      "awayScore": 1
-    },
-    {
-      "date": "2024-06-16",
-      "round": "K리그1 17라운드",
-      "homeTeam": "전북 현대모터스",
-      "awayTeam": "인천 유나이티드",
-      "homeScore": 2,
-      "awayScore": 2
-    },
-    {
-      "date": "2024-05-01",
-      "round": "K리그1 10라운드",
-      "homeTeam": "인천 유나이티드",
-      "awayTeam": "전북 현대모터스",
-      "homeScore": 3,
-      "awayScore": 0
-    },
-    {
-      "date": "2023-11-12",
-      "round": "K리그1 36라운드",
-      "homeTeam": "인천 유나이티드",
-      "awayTeam": "전북 현대모터스",
-      "homeScore": 1,
-      "awayScore": 1
-    },
-    {
-      "date": "2023-08-06",
-      "round": "K리그1 25라운드",
-      "homeTeam": "전북 현대모터스",
-      "awayTeam": "인천 유나이티드",
-      "homeScore": 2,
-      "awayScore": 0
-    },
-    {
-      "date": "2023-05-14",
-      "round": "K리그1 13라운드",
-      "homeTeam": "인천 유나이티드",
-      "awayTeam": "전북 현대모터스",
-      "homeScore": 0,
-      "awayScore": 0
-    },
-    {
-      "date": "2023-04-09",
-      "round": "K리그1 6라운드",
-      "homeTeam": "전북 현대모터스",
-      "awayTeam": "인천 유나이티드",
-      "homeScore": 2,
-      "awayScore": 0
-    },
-    {
-      "date": "2022-10-23",
-      "round": "K리그1 38라운드",
-      "homeTeam": "전북 현대모터스",
-      "awayTeam": "인천 유나이티드",
-      "homeScore": 2,
-      "awayScore": 1
-    },
-    {
-      "date": "2022-08-13",
-      "round": "K리그1 28라운드",
-      "homeTeam": "인천 유나이티드",
-      "awayTeam": "전북 현대모터스",
-      "homeScore": 3,
-      "awayScore": 1
-    },
-    {
-      "date": "2022-07-09",
-      "round": "K리그1 21라운드",
-      "homeTeam": "전북 현대모터스",
-      "awayTeam": "인천 유나이티드",
-      "homeScore": 2,
-      "awayScore": 2
-    },
-    {
-      "date": "2022-05-08",
-      "round": "K리그1 11라운드",
-      "homeTeam": "인천 유나이티드",
-      "awayTeam": "전북 현대모터스",
-      "homeScore": 0,
-      "awayScore": 1
     }
   ],
   "부천FC": [

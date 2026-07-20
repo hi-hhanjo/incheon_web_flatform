@@ -93,30 +93,14 @@
   "강원FC": {
     "keyPlayers": [
       {
+        "name": "김대원",
+        "position": "FW",
+        "note": "시즌 7골 (팀 내 핵심)"
+      },
+      {
         "name": "아부달라",
         "position": "FW",
         "note": "시즌 6골 (팀 내 핵심)"
-      },
-      {
-        "name": "김대원",
-        "position": "FW",
-        "note": "시즌 5골 (팀 내 핵심)"
-      }
-    ],
-    "injuries": [],
-    "probableLineup": []
-  },
-  "안양FC": {
-    "keyPlayers": [
-      {
-        "name": "아일톤",
-        "position": "FW",
-        "note": "시즌 5골 (팀 내 핵심)"
-      },
-      {
-        "name": "마테우스",
-        "position": "MF",
-        "note": "시즌 5골 (팀 내 핵심)"
       }
     ],
     "injuries": [],
@@ -127,7 +111,7 @@
       {
         "name": "클리말라",
         "position": "FW",
-        "note": "시즌 5골 (팀 내 핵심)"
+        "note": "시즌 6골 (팀 내 핵심)"
       },
       {
         "name": "이승모",
@@ -144,17 +128,17 @@
     ],
     "probableLineup": []
   },
-  "김천 상무": {
+  "안양FC": {
     "keyPlayers": [
       {
-        "name": "고재현",
-        "position": "FW",
-        "note": "시즌 5골 (팀 내 핵심)"
+        "name": "마테우스",
+        "position": "MF",
+        "note": "시즌 6골 (팀 내 핵심)"
       },
       {
-        "name": "이정택",
-        "position": "DF",
-        "note": "시즌 3도움 (주요 자원)"
+        "name": "아일톤",
+        "position": "FW",
+        "note": "시즌 5골 (팀 내 핵심)"
       }
     ],
     "injuries": [],
@@ -192,6 +176,22 @@
     ],
     "probableLineup": []
   },
+  "김천 상무": {
+    "keyPlayers": [
+      {
+        "name": "고재현",
+        "position": "FW",
+        "note": "시즌 5골 (팀 내 핵심)"
+      },
+      {
+        "name": "이정택",
+        "position": "DF",
+        "note": "시즌 3도움 (주요 자원)"
+      }
+    ],
+    "injuries": [],
+    "probableLineup": []
+  },
   "대전하나시티즌": {
     "keyPlayers": [
       {
@@ -202,7 +202,7 @@
       {
         "name": "서진수",
         "position": "FW",
-        "note": "시즌 3골 (팀 내 핵심)"
+        "note": "시즌 4골 (팀 내 핵심)"
       }
     ],
     "injuries": [
@@ -259,14 +259,14 @@
   "광주FC": {
     "keyPlayers": [
       {
+        "name": "문민서",
+        "position": "MF",
+        "note": "시즌 4골 (팀 내 핵심)"
+      },
+      {
         "name": "신창무",
         "position": "FW",
         "note": "시즌 3골 (팀 내 핵심)"
-      },
-      {
-        "name": "프리드욘슨",
-        "position": "FW",
-        "note": "시즌 2도움 (주요 자원)"
       }
     ],
     "injuries": [

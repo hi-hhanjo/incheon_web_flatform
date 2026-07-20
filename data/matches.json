@@ -224,10 +224,13 @@
     "id": 80101411,
     "round": "K리그1 18라운드",
     "kickoffAt": "2026-07-18T19:30:00+09:00",
-    "status": "upcoming",
+    "status": "finished",
     "opponent": "전북 현대모터스",
     "isHome": true,
-    "score": null,
+    "score": {
+      "incheon": 1,
+      "opponent": 0
+    },
     "venue": "인천 축구 전용경기장"
   },
   {
