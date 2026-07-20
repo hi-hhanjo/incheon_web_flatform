@@ -1,18 +1,13 @@
-"""K리그1 순위표를 크롤링해 data/standings.json으로 내보낸다.
+"""K리그1 순위표를 크롤링해 Supabase 데이터베이스에 저장한다.
 
 실행: python scraper/export_standings.py [연도]
   (연도 생략 시 올해)
 
-세 곳에 쓴다:
-- data/standings.json                    : 최신 스냅샷(덮어씀). 화면이 표시하는 현재 순위.
-- data/standings-meta.json               : {updatedAt, previousDate, rankChange} — 기준일 배지 +
-                                           직전 스냅샷 대비 순위 변동(▲▼). 파생값은 여기에 둔다.
-- data/standings-history/YYYY-MM-DD.json  : 수집일별 스냅샷(누적). 재빌드에도 남는 이력 저장소.
-standings.json과 그날의 history 파일은 항상 동일한 순수 스냅샷이다(파생값은 meta에만).
-앱(lib/api/standings.ts)은 이 JSON들을 런타임에 직접 읽는다(Vercel 서버리스 호환).
+두 테이블을 갱신한다:
+- standings                : 최신 스냅샷(덮어씀). 화면이 표시하는 현재 순위.
+- standings_history        : 수집일별 스냅샷(누적). 재빌드에도 남는 이력 저장소 및 등락표 계산용.
 """
 
-import json
 import sys
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
@@ -20,10 +15,6 @@ from pathlib import Path
 from kleague.client import fetch_rank
 from kleague.standings import parse_standings
 from supabase_client import supabase
-
-# scraper/의 부모 = 프로젝트 루트.
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
-HISTORY_DIR = PROJECT_ROOT / "data" / "standings-history"
 
 KST = timezone(timedelta(hours=9))  # 수집일은 한국 시간 기준으로 찍는다.
 
@@ -35,21 +26,20 @@ EXPECTED_TEAM_COUNT = 12  # K리그1은 12팀. 달라지면 파싱이 깨진 신
 
 
 def previous_snapshot(snapshot_date: str) -> tuple[str | None, list[dict] | None]:
-    """오늘(snapshot_date)을 제외한 가장 최근 이력 스냅샷의 (날짜, 행들)을 반환한다.
-    같은 날 재실행해도 오늘 파일과 자기 자신을 비교하지 않도록 오늘 날짜는 제외한다."""
-    if not HISTORY_DIR.exists():
+    """오늘(snapshot_date)을 제외한 가장 최근 이력 스냅샷의 (날짜, 행들)을 반환한다."""
+    response = supabase.table("standings_history").select("snapshot_date").lt("snapshot_date", snapshot_date).order("snapshot_date", desc=True).limit(1).execute()
+    
+    if not response.data:
         return None, None
-    past = sorted(p for p in HISTORY_DIR.glob("*.json") if p.stem != snapshot_date)
-    if not past:
-        return None, None
-    return past[-1].stem, json.loads(past[-1].read_text(encoding="utf-8"))
+        
+    past_date = response.data[0]["snapshot_date"]
+    past_rows_response = supabase.table("standings_history").select("*").eq("snapshot_date", past_date).execute()
+    
+    return past_date, past_rows_response.data
 
 
 def rank_changes(rows: list[dict], previous_rows: list[dict] | None) -> dict[str, int | None]:
-    """직전 스냅샷 대비 순위 변동. 양수=상승, 음수=하락, 0=유지, None=비교 불가(신규/이력 없음).
-
-    순위는 숫자가 작을수록 상위이므로 (직전순위 - 현재순위)가 양수면 상승이다.
-    """
+    """직전 스냅샷 대비 순위 변동. 양수=상승, 음수=하락, 0=유지, None=비교 불가(신규/이력 없음)."""
     if not previous_rows:
         return {row["team"]: None for row in rows}
     before = {row["team"]: row["rank"] for row in previous_rows}
@@ -76,22 +66,36 @@ def main() -> None:
     rows = parse_standings(data)
     validate(rows)
 
-    payload = json.dumps(rows, ensure_ascii=False, indent=2) + "\n"
-
     snapshot_date = datetime.now(KST).strftime("%Y-%m-%d")
 
     # 오늘 이력을 쓰기 전에 직전 스냅샷과 비교해 순위 변동을 계산한다.
     previous_date, previous_rows = previous_snapshot(snapshot_date)
     changes = rank_changes(rows, previous_rows)
 
-    # 수집일별 이력(누적) — 같은 날 재실행하면 그 날짜 파일만 갱신, 과거 파일은 건드리지 않음
-    HISTORY_DIR.mkdir(parents=True, exist_ok=True)
-    history_path = HISTORY_DIR / f"{snapshot_date}.json"
-    history_path.write_text(payload, encoding="utf-8")
-
-    # Supabase 업데이트
+    # 수집일별 이력(누적) 저장
+    # 같은 날 재실행 시 중복을 피하기 위해 기존 오늘 날짜 데이터 삭제 (멱등성)
+    supabase.table("standings_history").delete().eq("snapshot_date", snapshot_date).execute()
+    
+    history_inserts = []
+    standings_upserts = []
+    
     for row in rows:
-        data = {
+        # History 테이블용 데이터
+        history_inserts.append({
+            "team": row["team"],
+            "rank": row["rank"],
+            "played": row["played"],
+            "win": row["win"],
+            "draw": row["draw"],
+            "lose": row["lose"],
+            "goals_for": row["goalsFor"],
+            "goals_against": row["goalsAgainst"],
+            "points": row["points"],
+            "snapshot_date": snapshot_date
+        })
+        
+        # 현재 순위 테이블용 데이터
+        standings_upserts.append({
             "team": row["team"],
             "rank": row["rank"],
             "played": row["played"],
@@ -103,15 +107,19 @@ def main() -> None:
             "points": row["points"],
             "rank_change": changes.get(row["team"]),
             "updated_at": snapshot_date
-        }
-        supabase.table("standings").upsert(data).execute()
+        })
 
-    moved = sum(1 for v in changes.values() if v)
+    # 데이터베이스에 반영
+    supabase.table("standings_history").insert(history_inserts).execute()
+    supabase.table("standings").upsert(standings_upserts).execute()
+
+    moved = sum(1 for v in changes.values() if v is not None and v != 0)
     print(
         f"순위표 {len(rows)}팀 (기준일 {snapshot_date}, 직전 {previous_date or '없음'}, "
-        f"변동 {moved}팀) → Supabase + history/"
+        f"변동 {moved}팀) → Supabase 업데이트 완료"
     )
 
 
 if __name__ == "__main__":
     main()
+
