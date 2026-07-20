@@ -13,7 +13,7 @@
 - `IntersectionObserver`를 통해 스크롤 시 현재 위치한 섹션을 파란색으로 자동 강조합니다.
 
 ## 2. 사용처
-- F-16~F-18 구단 정보 페이지 (`app/club/page.tsx`)
+- F-16~F-18 구단 정보 페이지 (`app/page.tsx`, 루트 `/`)
 
 ## 3. 입력 (Props)
 | 이름 | 설명 | 필수 |

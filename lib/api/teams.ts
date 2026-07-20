@@ -5,7 +5,12 @@
  * 엠블럼 이미지와 외부 링크를 가져온다. 매핑은 다음 스포츠 순위 API 응답에서 추출했다.
  *
  * - 엠블럼: t1.daumcdn.net CDN의 300×300 PNG (next.config.ts remotePatterns 필요)
- * - 팀 페이지: https://sports.daum.net/team/kl/{teamId} (숫자 teamId 사용, 브라우저 확인 완료)
+ * - 팀 페이지: https://sports.daum.net/team/kl/{teamId} (숫자 teamId 사용)
+ *
+ * ⚠ cpTeamId·teamId는 반드시 다음 순위 API(rank.json) 응답에서 그대로 옮긴다.
+ *   cpTeamId 숫자와 teamId는 다르다(예: 안양 cpTeamId K27 · teamId 163984). 과거
+ *   teamId를 cpTeamId 숫자로 잘못 채워 안양·김천 엠블럼이 뒤바뀌고 강원·부천·광주
+ *   팀 링크가 깨졌던 이력이 있어 2026-07-20 API 기준으로 전수 교정했다.
  */
 
 export interface TeamMeta {
@@ -40,9 +45,9 @@ const TEAM_META: Record<string, TeamMeta> = {
     officialSquadUrl: "https://hyundai-motorsfc.com/player/player_list.asp",
   },
   "강원FC": {
-    cpTeamId: "K21", teamId: 21,
+    cpTeamId: "K21", teamId: 20,
     emblemUrl: `${EMBLEM_BASE}/K21_300300.png`,
-    daumUrl: `${TEAM_PAGE_BASE}/21`,
+    daumUrl: `${TEAM_PAGE_BASE}/20`,
     officialSquadUrl: "https://gangwon-fc.com",
   },
   "포항 스틸러스": {
@@ -58,9 +63,9 @@ const TEAM_META: Record<string, TeamMeta> = {
     officialSquadUrl: "https://www.uhfc.tv",
   },
   "안양FC": {
-    cpTeamId: "K29", teamId: 29,
-    emblemUrl: `${EMBLEM_BASE}/K29_300300.png`,
-    daumUrl: `${TEAM_PAGE_BASE}/29`,
+    cpTeamId: "K27", teamId: 163984,
+    emblemUrl: `${EMBLEM_BASE}/K27_300300.png`,
+    daumUrl: `${TEAM_PAGE_BASE}/163984`,
     officialSquadUrl: "https://www.fcanyang.com",
   },
   "인천 유나이티드": {
@@ -76,9 +81,9 @@ const TEAM_META: Record<string, TeamMeta> = {
     officialSquadUrl: "https://www.jeju-utd.com",
   },
   "부천FC": {
-    cpTeamId: "K26", teamId: 26,
+    cpTeamId: "K26", teamId: 163983,
     emblemUrl: `${EMBLEM_BASE}/K26_300300.png`,
-    daumUrl: `${TEAM_PAGE_BASE}/26`,
+    daumUrl: `${TEAM_PAGE_BASE}/163983`,
     officialSquadUrl: "https://www.bfc1995.com/player/pro.php",
   },
   "대전하나시티즌": {
@@ -88,15 +93,15 @@ const TEAM_META: Record<string, TeamMeta> = {
     officialSquadUrl: "https://www.dhcfc.kr",
   },
   "김천 상무": {
-    cpTeamId: "K33", teamId: 33,
-    emblemUrl: `${EMBLEM_BASE}/K33_300300.png`,
-    daumUrl: `${TEAM_PAGE_BASE}/33`,
+    cpTeamId: "K35", teamId: 601032,
+    emblemUrl: `${EMBLEM_BASE}/K35_300300.png`,
+    daumUrl: `${TEAM_PAGE_BASE}/601032`,
     officialSquadUrl: "https://www.gimcheonfc.com",
   },
   "광주FC": {
-    cpTeamId: "K22", teamId: 22,
+    cpTeamId: "K22", teamId: 3035,
     emblemUrl: `${EMBLEM_BASE}/K22_300300.png`,
-    daumUrl: `${TEAM_PAGE_BASE}/22`,
+    daumUrl: `${TEAM_PAGE_BASE}/3035`,
     officialSquadUrl: "https://www.gwangjufc.com/player/pro.php",
   },
 };

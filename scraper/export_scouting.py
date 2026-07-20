@@ -1,4 +1,4 @@
-"""K리그1 팀별 스카우팅 정보(주요 선수·부상)를 크롤링해 data/opponent-scouting.json으로 내보낸다.
+"""K리그1 팀별 스카우팅 정보(주요 선수·부상)를 크롤링해 Supabase 데이터베이스에 저장한다.
 
 실행: python scraper/export_scouting.py [연도]  (연도 생략 시 올해)
 
@@ -6,14 +6,12 @@
 - 주요 선수: 다음 스포츠 선수 순위 API(득점·도움)에서 팀별 상위 2명.
 - 부상: Transfermarkt K리그1 부상자 목록(선수·부상명·복귀 예정).
 
-앱(lib/api/opponentScouting.ts)이 이 JSON을 팀명 키로 읽어 '다가오는 상대' 스카우팅에 표시한다.
+앱(lib/api/opponentScouting.ts)이 Supabase에서 팀명 키로 읽어 '다가오는 상대' 스카우팅에 표시한다.
 라인업(probableLineup)은 아직 소스가 없어 빈 목록으로 둔다.
 """
 
-import json
 import sys
 from datetime import datetime
-from pathlib import Path
 
 import requests
 from bs4 import BeautifulSoup
@@ -22,8 +20,6 @@ from kleague.client import fetch_person_rank
 from kleague.codes import normalize_team_name, normalize_tm_team_name
 from kleague.translation import translate_player, translate_injury
 from supabase_client import supabase
-
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 KEY_PLAYERS_PER_TEAM = 2  # 팀당 대표 선수 수(득점→도움 순으로 채운다).
 TM_INJURY_URL = "https://www.transfermarkt.com/k-league-1/verletztespieler/wettbewerb/RSK1"

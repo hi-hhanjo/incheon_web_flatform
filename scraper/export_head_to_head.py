@@ -1,4 +1,4 @@
-"""인천 유나이티드의 상대별 상대전적을 크롤링해 data/head-to-head.json으로 내보낸다.
+"""인천 유나이티드의 상대별 상대전적을 크롤링해 Supabase 데이터베이스에 저장한다.
 
 실행: python scraper/export_head_to_head.py [시즌수]  (생략 시 최근 5시즌)
 
@@ -16,16 +16,12 @@
 산출물: 상대팀명(앱 표기) → 경기 목록(최신순). `lib/api/headToHead.ts`가 상대명으로 조회한다.
 """
 
-import json
 import sys
 from datetime import datetime, timedelta, timezone
-from pathlib import Path
 
 from kleague.client import fetch_rank, fetch_schedule
 from kleague.schedule import parse_head_to_head
 from supabase_client import supabase
-
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 KST = timezone(timedelta(hours=9))
 DEFAULT_SEASONS = 25  # 역대 전적을 위해 25시즌 (K리그 원년부터 최대한 확보)
