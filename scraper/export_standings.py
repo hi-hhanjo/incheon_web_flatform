@@ -19,11 +19,10 @@ from pathlib import Path
 
 from kleague.client import fetch_rank
 from kleague.standings import parse_standings
+from supabase_client import supabase
 
 # scraper/의 부모 = 프로젝트 루트.
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-OUTPUT_PATH = PROJECT_ROOT / "data" / "standings.json"
-META_PATH = PROJECT_ROOT / "data" / "standings-meta.json"
 HISTORY_DIR = PROJECT_ROOT / "data" / "standings-history"
 
 KST = timezone(timedelta(hours=9))  # 수집일은 한국 시간 기준으로 찍는다.
@@ -85,27 +84,32 @@ def main() -> None:
     previous_date, previous_rows = previous_snapshot(snapshot_date)
     changes = rank_changes(rows, previous_rows)
 
-    # 최신 스냅샷(덮어씀) + 메타(기준일 + 파생 변동값)
-    OUTPUT_PATH.write_text(payload, encoding="utf-8")
-    META_PATH.write_text(
-        json.dumps(
-            {"updatedAt": snapshot_date, "previousDate": previous_date, "rankChange": changes},
-            ensure_ascii=False,
-            indent=2,
-        )
-        + "\n",
-        encoding="utf-8",
-    )
-
     # 수집일별 이력(누적) — 같은 날 재실행하면 그 날짜 파일만 갱신, 과거 파일은 건드리지 않음
     HISTORY_DIR.mkdir(parents=True, exist_ok=True)
     history_path = HISTORY_DIR / f"{snapshot_date}.json"
     history_path.write_text(payload, encoding="utf-8")
 
+    # Supabase 업데이트
+    for row in rows:
+        data = {
+            "team": row["team"],
+            "rank": row["rank"],
+            "played": row["played"],
+            "win": row["win"],
+            "draw": row["draw"],
+            "lose": row["lose"],
+            "goals_for": row["goalsFor"],
+            "goals_against": row["goalsAgainst"],
+            "points": row["points"],
+            "rank_change": changes.get(row["team"]),
+            "updated_at": snapshot_date
+        }
+        supabase.table("standings").upsert(data).execute()
+
     moved = sum(1 for v in changes.values() if v)
     print(
         f"순위표 {len(rows)}팀 (기준일 {snapshot_date}, 직전 {previous_date or '없음'}, "
-        f"변동 {moved}팀) → standings.json + meta + history/"
+        f"변동 {moved}팀) → Supabase + history/"
     )
 
 

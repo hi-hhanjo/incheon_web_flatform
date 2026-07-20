@@ -28,12 +28,12 @@ export default function UpcomingMatchCard({ match }: { match: Match }) {
       </div>
       <div className="mt-4 flex items-center justify-between">
         <div className="flex flex-1 flex-col items-center gap-1">
-          <TeamEmblem teamName={home} size="lg" linked={false} />
+          <TeamEmblem teamName={home} size="lg" />
           <span className="text-sm font-semibold">{home}</span>
         </div>
         <span className="px-4 text-lg font-bold text-white/60">vs</span>
         <div className="flex flex-1 flex-col items-center gap-1">
-          <TeamEmblem teamName={away} size="lg" linked={false} />
+          <TeamEmblem teamName={away} size="lg" />
           <span className="text-sm font-semibold">{away}</span>
         </div>
       </div>

@@ -13,10 +13,9 @@ from pathlib import Path
 
 from kleague.client import fetch_rank, fetch_schedule
 from kleague.schedule import parse_incheon_matches
+from supabase_client import supabase
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-OUTPUT_PATH = PROJECT_ROOT / "data" / "matches.json"
-META_PATH = PROJECT_ROOT / "data" / "matches-meta.json"
 
 KST = timezone(timedelta(hours=9))
 
@@ -32,17 +31,29 @@ def main() -> None:
     if not matches:
         raise ValueError("경기가 0건입니다. 스케줄 파싱을 확인하세요.")
 
-    OUTPUT_PATH.write_text(
-        json.dumps(matches, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-    )
-    META_PATH.write_text(
-        json.dumps({"updatedAt": datetime.now(KST).strftime("%Y-%m-%d")}, ensure_ascii=False)
-        + "\n",
-        encoding="utf-8",
-    )
+    snapshot_date = datetime.now(KST).strftime("%Y-%m-%d")
+
+    for m in matches:
+        score_incheon = m.get("score", {}).get("incheon") if m.get("score") else None
+        score_opponent = m.get("score", {}).get("opponent") if m.get("score") else None
+        is_home = 1 if m["isHome"] else 0
+        data = {
+            "id": m["id"],
+            "round": m["round"],
+            "kickoff_at": m["kickoffAt"],
+            "status": m["status"],
+            "opponent": m["opponent"],
+            "is_home": is_home,
+            "score_incheon": score_incheon,
+            "score_opponent": score_opponent,
+            "venue": m["venue"],
+            "updated_at": snapshot_date
+        }
+        supabase.table("matches").upsert(data).execute()
+
     finished = sum(1 for m in matches if m["status"] == "finished")
     upcoming = len(matches) - finished
-    print(f"인천 경기 {len(matches)}건(완료 {finished}·예정 {upcoming}) → {OUTPUT_PATH.name}")
+    print(f"인천 경기 {len(matches)}건(완료 {finished}·예정 {upcoming}) → Supabase")
 
 
 if __name__ == "__main__":

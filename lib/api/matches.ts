@@ -1,7 +1,5 @@
-import matchesData from "@/data/matches.json";
-import matchesMeta from "@/data/matches-meta.json";
+import { supabase } from "../supabase";
 
-// 구단 정보 확장(경기 결과/일정) 데이터 구조.
 export type MatchStatus = "finished" | "upcoming";
 
 export interface MatchScore {
@@ -20,25 +18,57 @@ export interface Match {
   venue: string;
 }
 
-// 런타임 저장소는 크롤러가 만든 data/matches.json(다음 스포츠, 인천 경기 전체). 읽기 전용.
-const matches = matchesData as Match[];
-
-// 최근 종료된 경기를 최신순으로 count개 반환한다. count=1이면 "지난 경기 결과"로 그대로 쓸 수 있다.
 export async function getRecentMatches(count = 5): Promise<Match[]> {
-  return matches
-    .filter((match) => match.status === "finished")
-    .sort((a, b) => b.kickoffAt.localeCompare(a.kickoffAt))
-    .slice(0, count);
+  const { data, error } = await supabase
+    .from("matches")
+    .select("*")
+    .eq("status", "finished")
+    .order("kickoff_at", { ascending: false })
+    .limit(count);
+
+  if (error) {
+    console.error("Error fetching recent matches:", error);
+    return [];
+  }
+  return (data || []).map(mapToMatch);
 }
 
-// 다가오는 매치 중 가장 가까운 경기. 크롤된 일정(다음 스포츠) 기준.
 export async function getUpcomingMatch(): Promise<Match | undefined> {
-  return matches
-    .filter((match) => match.status === "upcoming")
-    .sort((a, b) => a.kickoffAt.localeCompare(b.kickoffAt))[0];
+  const { data, error } = await supabase
+    .from("matches")
+    .select("*")
+    .eq("status", "upcoming")
+    .order("kickoff_at", { ascending: true })
+    .limit(1)
+    .single();
+
+  if (error || !data) return undefined;
+  return mapToMatch(data);
 }
 
-// 경기 데이터가 크롤·수집된 날(스냅샷 기준일). data/matches-meta.json에 기록된다.
 export async function getMatchesUpdatedAt(): Promise<string | null> {
-  return (matchesMeta as { updatedAt: string | null }).updatedAt ?? null;
+  const { data, error } = await supabase
+    .from("matches")
+    .select("updated_at")
+    .limit(1)
+    .single();
+
+  if (error || !data) return null;
+  return data.updated_at;
+}
+
+function mapToMatch(row: any): Match {
+  return {
+    id: row.id,
+    round: row.round,
+    kickoffAt: row.kickoff_at,
+    status: row.status,
+    opponent: row.opponent,
+    isHome: row.is_home === 1,
+    score: (row.score_incheon !== null && row.score_opponent !== null) ? {
+      incheon: row.score_incheon,
+      opponent: row.score_opponent
+    } : null,
+    venue: row.venue
+  };
 }

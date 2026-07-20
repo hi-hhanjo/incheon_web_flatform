@@ -4,8 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const NAV_ITEMS = [
-  { href: "/", label: "응원가" },
-  { href: "/club", label: "구단 정보" },
+  { href: "/", label: "구단 정보" },
+  { href: "/songs", label: "응원가" },
 ];
 
 // 전 화면 상단 탭 내비게이션 — 응원가 목록 / 구단 정보 섹션 전환

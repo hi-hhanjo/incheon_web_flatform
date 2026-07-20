@@ -6,20 +6,20 @@
 
 ---
 
-## 1. 2026-07-19 전체 점검 요약
+## 1. 2026-07-20 전체 점검 요약 (Supabase 이전 완료)
 
 | 점검 항목 | 결과 | 근거 |
 |---|---|---|
-| **클린 아키텍처 (계층 분리)** | ✅ 통과 | `app/`·`components/`에서 `@/data/*.json` 직접 import **0건** — 데이터 접근은 전부 `lib/api/` 경유 |
-| **순수 함수 계층 무오염** | ✅ 통과 | `lib/search.ts`·`lib/format.ts`·`songs.schema.ts`·`teams.ts`가 `data/*.json` 미참조 → 클라이언트 번들 오염 없음 |
-| **폴더 트리 구조** | ✅ 통과 | TECHSTACK.md 4장 구조와 실제 배치 일치 (신규 파일 포함, 아래 3장) |
-| **파일 간 상호참조** | ✅ 통과 | import 그래프 단방향·순환 없음, 삭제 파일을 참조하는 **코드** 0건 |
-| **타입 안정성** | ✅ 통과 | `tsc --noEmit` 0 errors |
-| **빌드** | ✅ 통과 | `next build` 성공 (5/5 페이지: `/`, `/_not-found`, `/club`, `/songs/[id]`) |
-| **프론트–백엔드–DB 워크플로우** | ✅ 통과 | 크롤러 → `data/*.json` → `lib/api` → 화면 단방향 (아래 4장) |
-| **문서 정합성** | ✅ 정리 완료 | 삭제된 라우트를 가리키던 문서 4곳 현재 구조로 갱신 (아래 5장) |
+| **클린 아키텍처 (계층 분리)** | ✅ 통과 | `app/`·`components/`에서 외부 데이터를 직접 참조하지 않음. 모든 데이터는 `lib/api/`를 경유해 Supabase에서 조회. |
+| **순수 함수 계층 무오염** | ✅ 통과 | `lib/search.ts`·`lib/format.ts`·`songs.schema.ts`·`teams.ts`가 순수 함수/타입으로만 구성됨. |
+| **폴더 트리 구조** | ✅ 통과 | 불필요한 `data/*.json` 완전 삭제 완료. TECHSTACK.md 4장 구조와 실제 배치 일치. |
+| **파일 간 상호참조** | ✅ 통과 | import 그래프 단방향·순환 없음, 삭제 파일을 참조하는 코드 0건. |
+| **타입 안정성** | ✅ 통과 | `tsc --noEmit` 0 errors (`songs.schema.ts` 타입 참조 교정 완료). |
+| **빌드** | ✅ 통과 | `next build` 성공 (`/`, `/_not-found`, `/club`, `/songs/[id]`). |
+| **프론트–백엔드–DB 워크플로우** | ✅ 통과 | 파이썬 크롤러 → Supabase DB → `lib/api` → 화면 단방향 파이프라인 정착 (아래 4장). |
+| **문서 정합성** | ✅ 정리 완료 | 사용하지 않는 JSON 파일이 정리됨에 따라 낡은 참조 문서 정리 완료. |
 
-**결론**: 코드·타입·빌드·계층 구조에 결함이 없고, 유일한 미비였던 **낡은 라우트 참조 문서 4곳**과 **루트 작업용 파일**도 2026-07-19 정리를 마쳤습니다(3-1·5장). 남은 조치 없음.
+**결론**: 로컬 JSON 파일 의존성을 완벽히 끊어내고 Supabase 클라우드 데이터베이스 단일 진실 공급원(SSOT) 체제로 리팩토링을 완료했습니다.
 
 ---
 
@@ -27,8 +27,8 @@
 
 `grep`으로 `app/`·`components/`·`lib/` 전체의 import를 전수 조사한 결과:
 
-- `@/data/*.json`을 import하는 곳은 **`lib/api/*.ts` 6개 파일뿐**: `songs.ts`, `standings.ts`, `matches.ts`, `headToHead.ts`, `opponentScouting.ts`. (TECHSTACK.md 2.3.1 "화면은 항상 `lib/api/`를 거친다" 준수)
-- 화면(`app/`)·부품(`components/`)은 `lib/api/`의 함수/타입 또는 `lib/`의 순수 함수만 import.
+- 화면(`app/`)·부품(`components/`)은 `lib/api/`의 데이터 접근 함수나 `lib/`의 순수 함수만 import합니다.
+- 로컬 `data/*.json` 파일들을 **전부 삭제**했으며, `lib/api/*.ts` 파일들도 로컬 파일이 아닌 Supabase 클라이언트를 통해서만 데이터를 가져옵니다.
 - `components/*`가 import하는 `lib/api/*`는 대부분 `import type`(타입만) — 런타임 데이터가 부품 번들로 딸려오지 않음.
 - 신규 검색 계층: `components/SongList.tsx`·`LyricsSnippet.tsx`가 `lib/search.ts`(순수 함수)와 `songs.schema.ts`(타입·상수)만 참조 → 계층 원칙 그대로 유지.
 
@@ -60,14 +60,14 @@
 ## 4. 프론트–백엔드–DB 워크플로우
 
 ```
-[scraper/ (Python)]  ──write──▶  [data/*.json]  ──import(서버)──▶  [lib/api/*.ts]  ──▶  [components/]·[app/]
-      크롤러                       런타임 창고         데이터 접근 계층        타입/함수      화면
+[scraper/ (Python)]  ──Upsert/Insert──▶  [Supabase DB (PostgreSQL)]  ──select──▶  [lib/api/*.ts]  ──▶  [components/]·[app/]
+      크롤러                                  클라우드 원격 DB                     데이터 접근 계층         화면
 ```
 
-- **단방향 유지**: 크롤러는 `data/`에만 쓰고 앱 코드를 건드리지 않음. 앱(Next.js)은 Python에 런타임 의존 없음.
-- **외부 API 의존 제거 완료**: 상대전적(H2H)까지 다음 스포츠 크롤로 전환되어 앱의 `.env`/외부 API 런타임 호출이 사라짐(PRD F-18). 화면은 정적 JSON만 읽음.
-- **비즈니스 로직 위치**: 순위 변동(`rankChange`) 계산, 최근 경기 필터링 등은 `lib/api/`에서 수행하고 뷰는 결과만 그림 — 뷰-로직 분리 유지.
-- **주의(데이터 진위)**: `data/opponent-scouting.json`의 인천/상대 "주요 선수·부상" 항목은 여전히 **익명 모의 데이터**(선수 개인정보 오정보 리스크로 의도적 유지, PRD F-18). 실데이터로 오인 표기되지 않도록 화면 문구 관리 필요.
+- **단방향 유지 및 로컬 의존성 제거**: Python 크롤러(`export_*.py`)들이 로컬 `data/*.json`에 저장하던 로직을 완전 폐기하고, Supabase 원격 DB로 직결되도록 개편했습니다. 
+- 앱(Next.js)은 빌드 및 런타임 시 로컬 파일(json)이 아닌 Supabase를 쿼리하므로, 무중단으로 백그라운드 데이터 갱신(크롤러 실행)이 가능해졌습니다.
+- **순위 등락(`rank_change`) DB 편입**: 로컬 `meta.json`에 의존하던 마지막 파생 데이터 로직마저 DB 스키마(`ALTER TABLE standings ADD COLUMN rank_change int`)로 편입하여 완벽한 DB-Driven 렌더링을 구현했습니다.
+- **번역 모듈화**: 외국인 선수명 및 부상 정보(`Achilles tendon surgery` 등)를 한글로 매핑하는 `translation.py`를 신규 도입하여, 프론트엔드가 별도의 변환 작업을 할 필요 없이 온전한 한글 데이터를 전달받습니다.
 
 ---
 
@@ -92,12 +92,14 @@
 
 아래는 검증 완료되어 상세 서술을 걷어낸 작업들. 결과만 남김:
 
-- **구단 엠블럼(TeamEmblem)**: `lib/api/teams.ts` 메타데이터 기반, 12팀 팀명 3소스(codes.py·teams.ts·standings.json) 완전 일치 검증 완료.
-- **구단 정보 UI 통합**: 순위표·다음 상대를 `/club` 단일 페이지로 병합, `RecentFormStrip → RecentMatchesList` 리팩터링, 가로 스크롤 카드 UI 일원화, Home/Away 배지, 순위 등하락 지표 정상화.
+- **Supabase DB 전면 도입 및 로컬 JSON 의존성 제거**: 크롤러와 프론트엔드의 중개자 역할을 하던 `data/*.json`을 폐기하고 클라우드 DB로 이관.
+- **크롤러 번역 파이프라인 추가**: Transfermarkt에서 긁어온 영문 선수명/부상상태 한글 매핑.
+- **다가오는 매치 엠블럼 클릭 버그 수정**: `linked={false}` 속성을 제거하여 모든 엠블럼이 다음 스포츠 페이지로 정상 연결되도록 조치.
+- **구단 정보 UI 통합 및 메인 라우트 변경**: 앱 접속 시 응원가가 아닌 구단 정보(`/`)가 먼저 표출되도록 라우트 스왑.
 - **응원가 실데이터화(34곡)** + **분류 기반 정렬**(팀 → 선수·현역 → 미사용).
 - **F-11 검색**: `lib/search.ts` 순수 함수 + `LyricsSnippet` 가사 스니펫.
 - **상대전적 다음 크롤 전환**: 외부 API·`.env` 의존 제거.
-- **플로팅 내비(F-19)**: `FloatingNav` — 긴 `/club` 페이지 섹션 이동.
+- **플로팅 내비(F-19)**: `FloatingNav` — 긴 `/club` 페이지(현재는 `/` 루트) 섹션 이동.
 
 ---
 
@@ -114,6 +116,7 @@
 
 | 버전 | 날짜 | 내용 |
 |------|------|------|
+| v2.0 | 2026-07-20 | **Supabase 도입 및 JSON 프리 아키텍처 완성** — 로컬 `data/*.json` 완전 제거 및 크롤러 ➔ DB 직결 파이프라인 구축. 외인 선수 및 부상 상태 한글 번역(`translation.py`) 추가. 구단 정보를 메인('/')으로 스왑. 엠블럼 링크 버그 수정 |
 | v1.16 | 2026-07-19 | **F-번호 지형 대정리** — F-12(필터)·F-13(즐겨찾기)·F-14(관리자)·F-15(가사 하이라이트)를 7개 문서에서 삭제/결번 처리하고 흩어진 죽은 참조를 정리. FUNCTION.md 본문 순서 교정(F-04↔F-03)·색인 보완, PRD 4장 목록 정리, API_SPEC의 미존재 CRUD·관리자 API 제거, ERD·PERSONA·CRAWLER·README·TECHSTACK의 F-12~F-14 참조를 현행(F-01 분류 정렬/예약 필드)으로 교체. 7장 확장 후보에서 폐기 기능 삭제 |
 | v1.15 | 2026-07-19 | v1.14 발견 사항 **조치 완료**: (5장) 삭제 라우트를 가리키던 문서 4곳(PRD·source-note·CLUB_ERD_SPEC·export_opponent_forms.py)을 현재 `/club` 통합 구조로 정리, (3-1) `_check_teams.py` 삭제·`scratch/`를 `.gitignore` 등록. 1·3-1·5장을 '해결됨'으로 갱신 |
 | v1.14 | 2026-07-19 | **전체 프로젝트 재점검**(search·daum-migration 브랜치): 계층 분리·폴더 트리·상호참조·워크플로우 실측 검증(모두 통과, `tsc`·`next build` 0 에러). 완료 작업 로그(구9·10·11장)를 6장 요약으로 압축. **삭제된 페이지를 가리키던 낡은 의존성 그래프·소비자 표 삭제**. 발견 사항으로 (a) 삭제된 라우트를 가리키는 문서 4곳(5장), (b) 루트 작업용 파일(`_check_teams.py`·`scratch/`) 잔존(3-1) 기록 |

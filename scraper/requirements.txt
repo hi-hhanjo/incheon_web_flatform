@@ -1,3 +1,6 @@
 requests==2.34.2
 # 응원가 크롤러(chants/)의 HTML 파싱용. K리그 크롤러는 JSON API라 필요 없다.
 beautifulsoup4==4.15.0
+# Supabase 연동용 클라이언트
+supabase>=2.12.0
+python-dotenv>=1.0.1

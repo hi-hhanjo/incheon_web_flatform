@@ -20,9 +20,10 @@ from bs4 import BeautifulSoup
 
 from kleague.client import fetch_person_rank
 from kleague.codes import normalize_team_name, normalize_tm_team_name
+from kleague.translation import translate_player, translate_injury
+from supabase_client import supabase
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-OUTPUT_PATH = PROJECT_ROOT / "data" / "opponent-scouting.json"
 
 KEY_PLAYERS_PER_TEAM = 2  # 팀당 대표 선수 수(득점→도움 순으로 채운다).
 TM_INJURY_URL = "https://www.transfermarkt.com/k-league-1/verletztespieler/wettbewerb/RSK1"
@@ -58,14 +59,16 @@ def scrape_injuries() -> dict[str, list[dict]]:
             player_link = cols[0].find("td", class_="hauptlink")
             if not (player_link and player_link.find("a")):
                 continue
-            player_name = player_link.find("a").text.strip()
+            player_name_raw = player_link.find("a").text.strip()
+            player_name = translate_player(player_name_raw)
 
             # 팀명(둘째 칸 엠블럼의 title/alt) → 앱 표기로 정규화
             team_img = cols[1].find("img")
             tm_team_name = (team_img.get("title") or team_img.get("alt")) if team_img else "Unknown"
             normalized_team = normalize_tm_team_name(tm_team_name)
 
-            injury_type = cols[2].text.strip()
+            injury_type_raw = cols[2].text.strip()
+            injury_type = translate_injury(injury_type_raw)
             return_date = cols[4].text.strip()
             # 복귀일 칸이 비었거나 이적료(€)가 잘못 들어오면 '미정' 처리
             if not return_date or return_date.startswith("€"):
@@ -132,10 +135,37 @@ def main() -> None:
         bucket = teams_data.setdefault(team, {"keyPlayers": [], "injuries": [], "probableLineup": []})
         bucket["injuries"] = injuries
 
-    OUTPUT_PATH.write_text(
-        json.dumps(teams_data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-    )
-    print(f"스카우팅 {len(teams_data)}팀 → {OUTPUT_PATH.name}")
+    snapshot_date = datetime.now().strftime("%Y-%m-%d")
+    for opponent, data in teams_data.items():
+        supabase.table("opponent_scouting").upsert({"opponent": opponent, "updated_at": snapshot_date}).execute()
+
+        supabase.table("opponent_key_players").delete().eq("opponent", opponent).execute()
+        for kp in data.get("keyPlayers", []):
+            supabase.table("opponent_key_players").insert({
+                "opponent": opponent,
+                "name": kp["name"],
+                "position": kp["position"],
+                "note": kp["note"]
+            }).execute()
+
+        supabase.table("opponent_injuries").delete().eq("opponent", opponent).execute()
+        for inj in data.get("injuries", []):
+            supabase.table("opponent_injuries").insert({
+                "opponent": opponent,
+                "name": inj["name"],
+                "status": inj["status"],
+                "expected_return": inj["expectedReturn"]
+            }).execute()
+        
+        supabase.table("opponent_probable_lineup").delete().eq("opponent", opponent).execute()
+        for i, player in enumerate(data.get("probableLineup", [])):
+            supabase.table("opponent_probable_lineup").insert({
+                "opponent": opponent,
+                "player_name": player,
+                "sort_order": i
+            }).execute()
+
+    print(f"스카우팅 {len(teams_data)}팀 → Supabase")
 
 
 if __name__ == "__main__":

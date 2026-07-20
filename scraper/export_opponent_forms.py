@@ -15,10 +15,9 @@ from pathlib import Path
 from kleague.client import fetch_rank, fetch_schedule
 from kleague.codes import normalize_team_name
 from kleague.schedule import parse_team_form
+from supabase_client import supabase
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-OUTPUT_PATH = PROJECT_ROOT / "data" / "opponent-forms.json"
-META_PATH = PROJECT_ROOT / "data" / "opponent-forms-meta.json"
 
 KST = timezone(timedelta(hours=9))
 
@@ -34,15 +33,20 @@ def main() -> None:
         # 시즌 전체를 저장한다(화면은 최근 N경기만 잘라 쓴다 — lib/api/opponentScouting.ts).
         forms[app_name] = parse_team_form(schedule, team["teamId"])
 
-    OUTPUT_PATH.write_text(
-        json.dumps(forms, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-    )
-    META_PATH.write_text(
-        json.dumps({"updatedAt": datetime.now(KST).strftime("%Y-%m-%d")}, ensure_ascii=False)
-        + "\n",
-        encoding="utf-8",
-    )
-    print(f"상대 폼 {len(forms)}팀 → {OUTPUT_PATH.name} + meta")
+    snapshot_date = datetime.now(KST).strftime("%Y-%m-%d")
+
+    for opponent, recent in forms.items():
+        supabase.table("opponent_recent_form").delete().eq("opponent", opponent).execute()
+        for item in recent:
+            supabase.table("opponent_recent_form").insert({
+                "opponent": opponent,
+                "date": item["date"],
+                "opponent_faced": item["opponentFaced"],
+                "result": item["result"],
+                "score": item["score"]
+            }).execute()
+
+    print(f"상대 폼 {len(forms)}팀 → Supabase")
 
 
 if __name__ == "__main__":

@@ -23,10 +23,9 @@ from pathlib import Path
 
 from kleague.client import fetch_rank, fetch_schedule
 from kleague.schedule import parse_head_to_head
+from supabase_client import supabase
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-OUTPUT_PATH = PROJECT_ROOT / "data" / "head-to-head.json"
-META_PATH = PROJECT_ROOT / "data" / "head-to-head-meta.json"
 
 KST = timezone(timedelta(hours=9))
 DEFAULT_SEASONS = 5  # 상대전적은 화면에 최근 5경기만 쓰므로 5시즌이면 충분하다.
@@ -72,21 +71,26 @@ def main() -> None:
     for rows in by_opponent.values():
         rows.sort(key=lambda r: r["date"], reverse=True)
 
-    OUTPUT_PATH.write_text(
-        json.dumps(by_opponent, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-    )
-    META_PATH.write_text(
-        json.dumps(
-            {"updatedAt": datetime.now(KST).strftime("%Y-%m-%d"), "seasons": covered},
-            ensure_ascii=False,
-        )
-        + "\n",
-        encoding="utf-8",
-    )
+    snapshot_date = datetime.now(KST).strftime("%Y-%m-%d")
+
+    for opponent, matches in by_opponent.items():
+        supabase.table("head_to_head").delete().eq("opponent", opponent).execute()
+        for m in matches:
+            data = {
+                "opponent": opponent,
+                "date": m["date"],
+                "home_team": m["homeTeam"],
+                "away_team": m["awayTeam"],
+                "home_score": m["homeScore"],
+                "away_score": m["awayScore"],
+                "updated_at": snapshot_date
+            }
+            supabase.table("head_to_head").insert(data).execute()
+
     total = sum(len(v) for v in by_opponent.values())
     print(
         f"상대전적 {len(by_opponent)}팀 · {total}경기 (시즌: {', '.join(covered)}) "
-        f"→ {OUTPUT_PATH.name} + meta"
+        f"→ Supabase"
     )
 
 
